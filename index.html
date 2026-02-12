@@ -4,10 +4,10 @@
   <link rel="icon" href="/favicon.ico">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wallitude — Coming Soon</title>
+  <title>Wallitude — Order via Instagram</title>
 
-  <!-- Inter for tagline -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -16,37 +16,82 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f6f3ee; /* light premium background */
-      color: #0f0f0f;
+      background: #f6f3ee;
+      color: #111;
       font-family: Inter, sans-serif;
     }
 
     .container {
       text-align: center;
+      max-width: 520px;
+      padding: 40px 28px;
       opacity: 0;
-      transform: translateY(10px);
-      animation: fadeIn 1.4s ease-out forwards;
+      transform: translateY(12px);
+      animation: fadeIn 1.2s ease forwards;
     }
 
     .logo {
-  max-width: 180px;   /* cleaner, premium */
-  width: 100%;
-  height: auto;
-  margin-bottom: 24px;
-}
-
-    .coming-soon {
-      font-size: 0.75rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.6;
-      margin-bottom: 12px;
+      max-width: 170px;
+      width: 100%;
+      margin-bottom: 28px;
     }
 
-    .tagline {
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .subtext {
       font-size: 0.95rem;
-      letter-spacing: 0.06em;
       opacity: 0.75;
+      margin-bottom: 26px;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 26px;
+      border: 1px solid #111;
+      color: #111;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: #111;
+      color: #f6f3ee;
+    }
+
+    .response {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      opacity: 0.55;
+    }
+
+    .trust {
+      margin-top: 32px;
+      font-size: 0.85rem;
+      opacity: 0.75;
+      line-height: 1.8;
+    }
+
+    .brand-line {
+      margin-top: 34px;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
+
+    footer {
+      margin-top: 36px;
+      font-size: 0.75rem;
+      opacity: 0.45;
     }
 
     @keyframes fadeIn {
@@ -57,20 +102,39 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
+
     <img class="logo" src="/assets/images/logo-full.svg" alt="Wallitude">
-    <div class="coming-soon">Coming Soon</div>
-    <div class="tagline">Because some memories deserve permanence</div>
+
+    <h1>We’re Currently Taking Orders via Instagram</h1>
+
+    <div class="subtext">
+      Our website is under development.  
+      You can still place your order or ask anything directly through Instagram.
+    </div>
+
+    <a class="cta-btn" href="https://instagram.com/wallitude.co" target="_blank">
+      Order on Instagram
+    </a>
+
+    <div class="response">Average response time: under 15 minutes</div>
+
+    <div class="trust">
+      ✔ Personalized designs<br>
+      ✔ Secure payments<br>
+      ✔ Direct support from our team
+    </div>
+
+    <div class="brand-line">
+      Crafted with intention. Designed to last. Made to mean something.
+    </div>
+
+    <footer>
+      © Wallitude — All Rights Reserved
+    </footer>
+
   </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
