@@ -1,139 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="/favicon.ico">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wallitude — Order via Instagram</title>
+<link rel="icon" href="/favicon.ico">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wallitude — Order</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f6f3ee;
-      color: #111;
-      font-family: Inter, sans-serif;
-    }
+<style>
 
-    .container {
-      text-align: center;
-      max-width: 520px;
-      padding: 48px 30px;
-      opacity: 0;
-      transform: translateY(14px);
-      animation: fadeIn 1.2s ease forwards;
-    }
+:root{
+--bg:#f6f3ee;
+--text:#111;
+--muted:#6f6f6f;
+--line:#e8e4dc;
+}
 
-    .logo {
-      max-width: 170px;
-      width: 100%;
-      margin-bottom: 34px;
-    }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-    .headline {
-      font-size: 1.25rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      margin-bottom: 16px;
-    }
+body{
+font-family:Inter,sans-serif;
+background:var(--bg);
+color:var(--text);
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+padding:24px;
+}
 
-    .subtext {
-      font-size: 0.95rem;
-      opacity: 0.7;
-      margin-bottom: 32px;
-      line-height: 1.7;
-    }
+.wrapper{
+width:100%;
+max-width:420px;
+}
 
-    .cta {
-      display: inline-block;
-      padding: 14px 30px;
-      border: 1px solid #111;
-      text-decoration: none;
-      color: #111;
-      font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: all .3s ease;
-    }
+.card{
+text-align:center;
+padding:56px 32px;
+background:transparent;
+animation:fade 1s ease forwards;
+opacity:0;
+transform:translateY(10px);
+}
 
-    .cta:hover {
-      background: #111;
-      color: #f6f3ee;
-    }
+.logo{
+width:150px;
+margin:0 auto 40px;
+display:block;
+}
 
-    .trust {
-      margin-top: 38px;
-      font-size: 0.85rem;
-      opacity: 0.7;
-      letter-spacing: 0.04em;
-    }
+.headline{
+font-size:1.3rem;
+font-weight:500;
+letter-spacing:.02em;
+margin-bottom:14px;
+}
 
-    .reason {
-      margin-top: 44px;
-      font-size: 0.9rem;
-      letter-spacing: 0.08em;
-      opacity: 0.8;
-    }
+.sub{
+font-size:.92rem;
+color:var(--muted);
+line-height:1.7;
+margin-bottom:34px;
+}
 
-    .tagline {
-      margin-top: 12px;
-      font-size: 0.95rem;
-      letter-spacing: 0.06em;
-      opacity: 0.75;
-    }
+.cta{
+display:inline-block;
+padding:15px 34px;
+border:1px solid var(--text);
+text-decoration:none;
+color:var(--text);
+font-size:.8rem;
+letter-spacing:.14em;
+text-transform:uppercase;
+transition:.25s ease;
+}
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.75rem;
-      opacity: 0.45;
-    }
+.cta:hover{
+background:var(--text);
+color:var(--bg);
+}
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+.divider{
+height:1px;
+background:var(--line);
+margin:46px auto 38px;
+width:60px;
+}
+
+.trust{
+font-size:.82rem;
+color:var(--muted);
+letter-spacing:.05em;
+margin-bottom:42px;
+}
+
+.reason{
+font-size:.88rem;
+letter-spacing:.08em;
+margin-bottom:10px;
+}
+
+.tagline{
+font-size:.92rem;
+color:var(--muted);
+letter-spacing:.05em;
+}
+
+footer{
+margin-top:48px;
+font-size:.7rem;
+color:#9a9a9a;
+letter-spacing:.08em;
+}
+
+@keyframes fade{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* mobile tightening */
+@media(max-width:420px){
+
+.card{
+padding:44px 22px;
+}
+
+.logo{
+margin-bottom:32px;
+}
+
+.divider{
+margin:38px auto 32px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
-  <div class="container">
 
-    <img class="logo" src="/assets/images/logo-full.svg" alt="Wallitude">
+<div class="wrapper">
+<div class="card">
 
-    <div class="headline">We’re Currently Taking Orders via Instagram</div>
+<img src="/assets/images/logo-full.svg" class="logo" alt="Wallitude">
 
-    <div class="subtext">
-      Our website is under development. You can place your order or ask anything directly through our Instagram.
-    </div>
+<div class="headline">
+We’re Currently Taking Orders via Instagram
+</div>
 
-    <a class="cta" href="https://instagram.com/wallitude.co" target="_blank">
-      Order on Instagram
-    </a>
+<div class="sub">
+Our website is under development. You can place your order or ask anything directly through our Instagram.
+</div>
 
-    <div class="trust">
-      Personalized designs · Secure payments · Direct support
-    </div>
+<a href="https://instagram.com/wallitude.co" class="cta" target="_blank">
+Order on Instagram
+</a>
 
-    <div class="reason">
-      Made with intention. Designed with meaning. Crafted to last.
-    </div>
+<div class="divider"></div>
 
-    <div class="tagline">
-      " Because some memories deserve permanence "
-    </div>
+<div class="trust">
+Personalized designs · Secure payments · Direct support
+</div>
 
-    <footer>
-      © Wallitude — All Rights Reserved
-    </footer>
+<div class="reason">
+Made with intention. Designed with meaning. Crafted to last.
+</div>
 
-  </div>
+<div class="tagline">
+Because some memories deserve permanence
+</div>
+
+<footer>
+© Wallitude
+</footer>
+
+</div>
+</div>
+
 </body>
 </html>
