@@ -1,153 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico">
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Wallitude</title>
+  <link rel="icon" href="/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallitude — Order via Instagram</title>
 
-<!-- Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-<style>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f6f3ee;
+      color: #111;
+      font-family: Inter, sans-serif;
+    }
 
-/* ===== CANELA (Self-host if available) ===== */
-@font-face {
-  font-family: "Canela";
-  src: url("/fonts/Canela-Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+    .container {
+      text-align: center;
+      max-width: 520px;
+      padding: 48px 30px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeIn 1.2s ease forwards;
+    }
 
-/* ===== BASE ===== */
-body{
-  margin:0;
-  background:#f6f3ee;
-  color:#111;
-  font-family:Inter, sans-serif;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-}
+    .logo {
+      max-width: 170px;
+      width: 100%;
+      margin-bottom: 34px;
+    }
 
-.wrapper{
-  text-align:center;
-  max-width:540px;
-  padding:60px 28px;
-  animation:fade 1.2s ease forwards;
-  opacity:0;
-  transform:translateY(14px);
-}
+    .headline {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      margin-bottom: 16px;
+    }
 
-/* ===== LOGO ===== */
-.logo{
-  width:170px;
-  margin-bottom:40px;
-}
+    .subtext {
+      font-size: 0.95rem;
+      opacity: 0.7;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
 
-/* ===== HEADLINE ===== */
-h1{
-  font-family:"Canela", "Playfair Display", serif;
-  font-size:1.75rem;
-  font-weight:400;
-  letter-spacing:.01em;
-  margin:0 0 18px;
-}
+    .cta {
+      display: inline-block;
+      padding: 14px 30px;
+      border: 1px solid #111;
+      text-decoration: none;
+      color: #111;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all .3s ease;
+    }
 
-/* ===== BODY TEXT ===== */
-.desc{
-  font-size:.95rem;
-  line-height:1.7;
-  opacity:.72;
-  margin-bottom:34px;
-}
+    .cta:hover {
+      background: #111;
+      color: #f6f3ee;
+    }
 
-/* ===== CTA BUTTON ===== */
-.cta{
-  display:inline-block;
-  text-decoration:none;
-  font-size:.78rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  padding:15px 34px;
-  border:1px solid #111;
-  color:#111;
-  transition:.35s cubic-bezier(.4,.0,.2,1);
-}
+    .trust {
+      margin-top: 38px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      letter-spacing: 0.04em;
+    }
 
-.cta:hover{
-  background:#111;
-  color:#f6f3ee;
-}
+    .reason {
+      margin-top: 44px;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      opacity: 0.8;
+    }
 
-/* ===== TRUST ===== */
-.trust{
-  margin-top:44px;
-  font-size:.82rem;
-  opacity:.65;
-  line-height:2;
-}
+    .tagline {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      opacity: 0.75;
+    }
 
-/* ===== BRAND LINE ===== */
-.brand{
-  margin-top:44px;
-  font-size:.92rem;
-  letter-spacing:.04em;
-  opacity:.8;
-}
+    footer {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      opacity: 0.45;
+    }
 
-/* ===== FOOTER ===== */
-footer{
-  margin-top:48px;
-  font-size:.72rem;
-  opacity:.4;
-}
-
-/* ===== ANIMATION ===== */
-@keyframes fade{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-</style>
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
 
-<div class="wrapper">
+    <img class="logo" src="/assets/images/logo-full.svg" alt="Wallitude">
 
-<img src="/assets/images/logo-full.svg" class="logo" alt="Wallitude Logo">
+    <div class="headline">We’re Currently Taking Orders via Instagram</div>
 
-<h1>Orders Available via Instagram</h1>
+    <div class="subtext">
+      Our website is under development. You can place your order or ask anything directly through our Instagram.
+    </div>
 
-<div class="desc">
-Our website is currently being refined.  
-Until then, you can place your order or inquire directly with us on Instagram.
-</div>
+    <a class="cta" href="https://instagram.com/wallitude.co" target="_blank">
+      Order on Instagram
+    </a>
 
-<a href="https://instagram.com/wallitude.co" target="_blank" class="cta">
-Order Now
-</a>
+    <div class="trust">
+      Personalized designs · Secure payments · Direct support
+    </div>
 
-<div class="trust">
-Personalized designs<br>
-Secure payments<br>
-Direct brand support
-</div>
+    <div class="reason">
+      Made with intention. Designed with meaning. Crafted to last.
+    </div>
 
-<div class="brand">
-Crafted with intention. Designed to last. Made to mean something.
-</div>
+    <div class="tagline">
+      " Because some memories deserve permanence "
+    </div>
 
-<footer>
-© Wallitude
-</footer>
+    <footer>
+      © Wallitude — All Rights Reserved
+    </footer>
 
-</div>
-
+  </div>
 </body>
 </html>
