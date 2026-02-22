@@ -4,7 +4,7 @@
 <link rel="icon" href="/favicon.ico">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wallitude — Order</title>
+<title>Wallitude — Private Ordering</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -17,11 +17,7 @@
 --line:#e8e4dc;
 }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0;}
 
 body{
 font-family:Inter,sans-serif;
@@ -34,15 +30,11 @@ min-height:100vh;
 padding:24px;
 }
 
-.wrapper{
-width:100%;
-max-width:420px;
-}
+.wrapper{width:100%;max-width:420px;}
 
 .card{
 text-align:center;
 padding:56px 32px;
-background:transparent;
 animation:fade 1s ease forwards;
 opacity:0;
 transform:translateY(10px);
@@ -55,21 +47,21 @@ display:block;
 }
 
 .headline{
-font-size:1.3rem;
+font-size:1.35rem;
 font-weight:500;
 letter-spacing:.02em;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 .sub{
 font-size:.92rem;
 color:var(--muted);
 line-height:1.7;
-margin-bottom:34px;
+margin-bottom:36px;
 }
 
 .cta{
-display:inline-block;
+display:block;
 padding:15px 34px;
 border:1px solid var(--text);
 text-decoration:none;
@@ -78,11 +70,22 @@ font-size:.8rem;
 letter-spacing:.14em;
 text-transform:uppercase;
 transition:.25s ease;
+margin-bottom:14px;
 }
 
 .cta:hover{
 background:var(--text);
 color:var(--bg);
+}
+
+.secondary{
+border-color:var(--line);
+color:var(--muted);
+}
+
+.secondary:hover{
+border-color:var(--text);
+color:var(--text);
 }
 
 .divider{
@@ -92,17 +95,17 @@ margin:46px auto 38px;
 width:60px;
 }
 
+.social-proof{
+font-size:.9rem;
+font-weight:500;
+margin-bottom:12px;
+}
+
 .trust{
 font-size:.82rem;
 color:var(--muted);
 letter-spacing:.05em;
-margin-bottom:42px;
-}
-
-.reason{
-font-size:.88rem;
-letter-spacing:.08em;
-margin-bottom:10px;
+margin-bottom:24px;
 }
 
 .tagline{
@@ -119,27 +122,13 @@ letter-spacing:.08em;
 }
 
 @keyframes fade{
-to{
-opacity:1;
-transform:translateY(0);
-}
+to{opacity:1;transform:translateY(0);}
 }
 
-/* mobile tightening */
 @media(max-width:420px){
-
-.card{
-padding:44px 22px;
-}
-
-.logo{
-margin-bottom:32px;
-}
-
-.divider{
-margin:38px auto 32px;
-}
-
+.card{padding:44px 22px;}
+.logo{margin-bottom:32px;}
+.divider{margin:38px auto 32px;}
 }
 
 </style>
@@ -153,25 +142,29 @@ margin:38px auto 32px;
 <img src="/assets/images/logo-full.svg" class="logo" alt="Wallitude">
 
 <div class="headline">
-We’re Currently Taking Orders via Instagram
+Private Ordering Experience
 </div>
 
 <div class="sub">
-Our website is under development. You can place your order or ask anything directly through our Instagram.
+Wallitude frames are crafted through a personalized ordering process to ensure exceptional quality, attention to detail, and a truly meaningful final piece.
 </div>
 
-<a href="https://instagram.com/wallitude.co" class="cta" target="_blank">
-Order on Instagram
+<a href="https://wa.me/916287656368" class="cta" target="_blank">
+Order via WhatsApp
+</a>
+
+<a href="https://www.instagram.com/wallitude.co?igsh=MTl4OWNyd2RkZm41Zg==" class="cta secondary" target="_blank">
+Explore Our Work
 </a>
 
 <div class="divider"></div>
 
-<div class="trust">
-Personalized designs · Secure payments · Direct support
+<div class="social-proof">
+Trusted by hundreds of customers across India
 </div>
 
-<div class="reason">
-Made with intention. Designed with meaning. Crafted to last.
+<div class="trust">
+Premium materials · Personalized craftsmanship · Secure payments · Dedicated support
 </div>
 
 <div class="tagline">
