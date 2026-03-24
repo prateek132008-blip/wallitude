@@ -1,1059 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Wallitude — Design Your Frame</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f6f4ef;
-      --ink: #121212;
-      --muted: #6d6d6d;
-      --card: #ffffff;
-      --accent: #111111;
-      --border: #e8e4db;
-    }
+<link rel="icon" href="/favicon.ico">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wallitude — Private Ordering</title>
 
-    * { box-sizing: border-box; }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Inter", sans-serif;
-    }
+<style>
 
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 20px 16px 48px;
-    }
+:root{
+--bg:#f6f3ee;
+--text:#111;
+--muted:#6f6f6f;
+--line:#e8e4dc;
+}
 
-    .brand img {
-      display: block;
-      height: 42px;
-      width: auto;
-      max-width: 220px;
-    }
+*{box-sizing:border-box;margin:0;padding:0;}
 
-    .brand p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 520px;
-      line-height: 1.5;
-    }
+body{
+font-family:Inter,sans-serif;
+background:var(--bg);
+color:var(--text);
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+padding:24px;
+}
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
+.wrapper{width:100%;max-width:420px;}
 
-    .title {
-      margin: 0 0 12px;
-      font-size: 17px;
-      font-weight: 600;
-    }
+.card{
+text-align:center;
+padding:56px 32px;
+animation:fade 1s ease forwards;
+opacity:0;
+transform:translateY(10px);
+}
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.logo{
+width:150px;
+margin:0 auto 40px;
+display:block;
+}
 
-    .field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
+.headline{
+font-size:1.35rem;
+font-weight:500;
+letter-spacing:.02em;
+margin-bottom:16px;
+}
 
-    .field input,
-    .field select,
-    .field textarea,
-    button {
-      width: 100%;
-      border: 1px solid #ddd8cf;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 14px;
-      font-family: "Inter", sans-serif;
-      background: #fff;
-      color: var(--ink);
-    }
+.sub{
+font-size:.92rem;
+color:var(--muted);
+line-height:1.7;
+margin-bottom:36px;
+}
 
-    .field textarea { min-height: 72px; resize: vertical; }
+.cta{
+display:block;
+padding:15px 34px;
+border:1px solid var(--text);
+text-decoration:none;
+color:var(--text);
+font-size:.8rem;
+letter-spacing:.14em;
+text-transform:uppercase;
+transition:.25s ease;
+margin-bottom:14px;
+}
 
-    .row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+.cta:hover{
+background:var(--text);
+color:var(--bg);
+}
 
-    .btn {
-      border: 1px solid var(--accent);
-      background: var(--accent);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 600;
-      flex: 1;
-      min-width: 160px;
-    }
+.secondary{
+border-color:var(--line);
+color:var(--muted);
+}
 
-    .btn.secondary {
-      background: #fff;
-      color: var(--ink);
-    }
+.secondary:hover{
+border-color:var(--text);
+color:var(--text);
+}
 
-    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.divider{
+height:1px;
+background:var(--line);
+margin:46px auto 38px;
+width:60px;
+}
 
-    .small {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
+.social-proof{
+font-size:.9rem;
+font-weight:500;
+margin-bottom:12px;
+}
 
-    .note {
-      background: #f3f0e8;
-      border: 1px solid #e3dfd4;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #4a463d;
-      margin-top: 10px;
-    }
+.trust{
+font-size:.82rem;
+color:var(--muted);
+letter-spacing:.05em;
+margin-bottom:24px;
+}
 
-    #canvas {
-      display: block;
-      width: 100%;
-      max-width: 760px;
-      margin: 12px auto 0;
-      border: 14px solid #111;
-      background: #f8f6f2;
-      cursor: grab;
-      border-radius: 2px;
-      touch-action: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
+.tagline{
+font-size:.92rem;
+color:var(--muted);
+letter-spacing:.05em;
+}
 
-    #canvas.dragging { cursor: grabbing; }
+footer{
+margin-top:48px;
+font-size:.7rem;
+color:#9a9a9a;
+letter-spacing:.08em;
+}
 
-    .status {
-      font-size: 13px;
-      margin-top: 8px;
-      color: var(--muted);
-      min-height: 18px;
-    }
+@keyframes fade{
+to{opacity:1;transform:translateY(0);}
+}
 
-    .cart-badge {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
+@media(max-width:420px){
+.card{padding:44px 22px;}
+.logo{margin-bottom:32px;}
+.divider{margin:38px auto 32px;}
+}
 
-    .wa-fallback {
-      display: none;
-      margin-top: 12px;
-      padding: 12px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-    }
-
-    .wa-fallback.visible { display: block; }
-
-    .wa-fallback textarea {
-      width: 100%;
-      min-height: 120px;
-      font-size: 12px;
-      font-family: ui-monospace, monospace;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 760px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .row .btn { min-width: 100%; }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="brand">
-      <img src="assets/images/logo-full.svg" alt="Wallitude" width="200" height="42" />
-      <p>Frame your favorite memory with the weight it deserves.</p>
-    </div>
 
-    <div class="card">
-      <h2 class="title">Design preview</h2>
+<div class="wrapper">
+<div class="card">
 
-      <div class="grid-2">
-        <div class="field">
-          <label for="layoutSelect">Layout</label>
-          <select id="layoutSelect">
-            <option value="1">Single image</option>
-            <option value="2">Three images</option>
-            <option value="3">Four images (A)</option>
-            <option value="4">Four images (B)</option>
-          </select>
-        </div>
+<img src="/assets/images/logo-full.svg" class="logo" alt="Wallitude">
 
-        <div class="field">
-          <label for="textMode">Text on frame</label>
-          <select id="textMode">
-            <option value="yes">With text</option>
-            <option value="no">No text</option>
-          </select>
-        </div>
-      </div>
+<div class="headline">
+Private Ordering Experience
+</div>
 
-      <div class="text-fields">
-        <div class="grid-2" style="margin-top:10px;">
-          <div class="field">
-            <label for="mainText">Main line (above divider)</label>
-            <input id="mainText" type="text" placeholder="e.g. Our favourite Sunday">
-          </div>
-          <div class="field">
-            <label for="subText">Small line (below divider)</label>
-            <input id="subText" type="text" placeholder="e.g. Mumbai · 2024">
-          </div>
-        </div>
+<div class="sub">
+Wallitude frames are crafted through a personalized ordering process to ensure exceptional quality, attention to detail, and a truly meaningful final piece.
+</div>
 
-        <div class="grid-2" style="margin-top:10px;">
-          <div class="field">
-            <label for="mainTextSize">Main text size (<span id="mainTextSizeVal">26</span>px)</label>
-            <input id="mainTextSize" type="range" min="14" max="40" step="1" value="26">
-          </div>
-          <div class="field">
-            <label for="subTextSize">Small text size (<span id="subTextSizeVal">13</span>px)</label>
-            <input id="subTextSize" type="range" min="10" max="22" step="1" value="13">
-          </div>
-        </div>
-      </div>
+<a href="https://wa.me/916287656368" class="cta" target="_blank">
+Order via WhatsApp
+</a>
 
-      <div class="grid-2" style="margin-top:10px;">
-        <div class="field">
-          <label for="zoomRange">Zoom (selected image)</label>
-          <input id="zoomRange" type="range" min="0.2" max="4" step="0.01" value="1">
-        </div>
-        <div class="field">
-          <label for="frameSize">Frame size</label>
-          <select id="frameSize">
-            <option value="A3">A3 — 12×18 in — ₹1,499 (incl. free shipping)</option>
-            <option value="A4">A4 — 9×12 in — ₹1,099 (incl. free shipping)</option>
-          </select>
-        </div>
-      </div>
+<a href="https://www.instagram.com/wallitude.co?igsh=MTl4OWNyd2RkZm41Zg==" class="cta secondary" target="_blank">
+Explore Our Work
+</a>
 
-      <div class="row" style="margin-top:10px;">
-        <button id="uploadBtn" class="btn secondary" type="button">Upload to selected box</button>
-        <input id="filePicker" type="file" accept="image/*" style="display:none;">
-        <span class="small" id="selectedInfo">Selected box: 1</span>
-      </div>
+<div class="divider"></div>
 
-      <div class="small" style="margin-top:8px;">
-        Tap a box to select it. <strong>Drag</strong> to move the photo (works on phone). Use the slider or pinch area + wheel to zoom.
-      </div>
+<div class="social-proof">
+Trusted by hundreds of customers across India
+</div>
 
-      <canvas id="canvas" width="760" height="980"></canvas>
+<div class="trust">
+Premium materials · Personalized craftsmanship · Secure payments · Dedicated support
+</div>
 
-      <div class="row" style="margin-top:12px;">
-        <button id="downloadPreviewBtn" type="button" class="btn secondary">Download preview (PNG)</button>
-      </div>
+<div class="tagline">
+Because some memories deserve permanence
+</div>
 
-      <div class="note">
-        <strong>Production files:</strong> Photos upload to your Google Drive folder (after you connect the script below).
-        On <em>Place order</em>, the preview PNG is uploaded too — WhatsApp message will include all Drive links + order details.
-        If WhatsApp is blocked on your network, use <strong>Copy message</strong> below.
-      </div>
-    </div>
+<footer>
+© Wallitude
+</footer>
 
-    <div class="card">
-      <h2 class="title">Your details</h2>
-      <div class="grid-2">
-        <div class="field">
-          <label for="custName">Full name</label>
-          <input id="custName" type="text" placeholder="Your name" required>
-        </div>
-        <div class="field">
-          <label for="custEmail">Email (optional)</label>
-          <input id="custEmail" type="email" placeholder="you@example.com">
-        </div>
-      </div>
+</div>
+</div>
 
-      <div class="grid-2" style="margin-top:10px;">
-        <div class="field">
-          <label for="custPhone">Mobile number</label>
-          <input id="custPhone" type="tel" placeholder="+91 …" required>
-        </div>
-        <div class="field">
-          <label>&nbsp;</label>
-          <span class="small" style="display:block;padding-top:8px;">Order confirmation goes to WhatsApp.</span>
-        </div>
-      </div>
-
-      <div class="field" style="margin-top:10px;">
-        <label for="custAddress">Full delivery address</label>
-        <textarea id="custAddress" placeholder="Flat, street, city, state, PIN" required></textarea>
-      </div>
-
-      <div class="row" style="margin-top:12px;">
-        <button id="addToCartBtn" type="button" class="btn secondary">Add to cart &amp; create new frame</button>
-        <button id="placeOrderBtn" type="button" class="btn">Place order</button>
-      </div>
-
-      <div id="cartBadge" class="cart-badge"></div>
-      <div id="status" class="status"></div>
-
-      <div id="waFallback" class="wa-fallback">
-        <strong>WhatsApp did not open?</strong> Copy this message and paste it in WhatsApp to +91 6287656368.
-        <textarea id="waMessageCopy" readonly></textarea>
-        <div class="row" style="margin-top:10px;">
-          <button type="button" class="btn secondary" id="copyMsgBtn">Copy message</button>
-          <a id="waDirectLink" class="btn" href="#" style="text-align:center;text-decoration:none;display:inline-block;">Open wa.me</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /**
-     * CONFIG — paste your Google Apps Script Web App URL + same secret as in google-apps-script.gs
-     * Get the .gs file from the same folder as this HTML.
-     */
-    const CONFIG = {
-      DRIVE_UPLOAD_URL: "",
-      UPLOAD_SECRET: "",
-      WHATSAPP_NUMBER: "916287656368"
-    };
-
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const layoutSelect = document.getElementById("layoutSelect");
-    const textMode = document.getElementById("textMode");
-    const mainTextInput = document.getElementById("mainText");
-    const subTextInput = document.getElementById("subText");
-    const mainTextSize = document.getElementById("mainTextSize");
-    const subTextSize = document.getElementById("subTextSize");
-    const mainTextSizeVal = document.getElementById("mainTextSizeVal");
-    const subTextSizeVal = document.getElementById("subTextSizeVal");
-    const textFieldsBlock = document.querySelector(".text-fields");
-
-    const zoomRange = document.getElementById("zoomRange");
-    const frameSize = document.getElementById("frameSize");
-    const uploadBtn = document.getElementById("uploadBtn");
-    const filePicker = document.getElementById("filePicker");
-    const selectedInfo = document.getElementById("selectedInfo");
-    const downloadPreviewBtn = document.getElementById("downloadPreviewBtn");
-    const addToCartBtn = document.getElementById("addToCartBtn");
-    const placeOrderBtn = document.getElementById("placeOrderBtn");
-    const cartBadge = document.getElementById("cartBadge");
-    const statusEl = document.getElementById("status");
-    const waFallback = document.getElementById("waFallback");
-    const waMessageCopy = document.getElementById("waMessageCopy");
-    const copyMsgBtn = document.getElementById("copyMsgBtn");
-    const waDirectLink = document.getElementById("waDirectLink");
-
-    const FRAME = 56;
-    const BASE_TEXT_BLOCK = 140;
-    const GAP = 12;
-
-    let images = [];
-    let selectedBox = 0;
-    let dragging = false;
-    let activePointerId = null;
-    let dragLast = { x: 0, y: 0 };
-
-    const CART_KEY = "wallitude_cart_v2";
-
-    function loadCart() {
-      try {
-        const raw = localStorage.getItem(CART_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveCart(items) {
-      localStorage.setItem(CART_KEY, JSON.stringify(items));
-      updateCartBadge();
-    }
-
-    function updateCartBadge() {
-      const n = Math.floor(loadCart().reduce((acc, i) => acc + (i.qty || 1), 0));
-      cartBadge.textContent = n
-        ? "Items in cart: " + n + " (included when you place order)"
-        : "Cart is empty — place order sends only this frame.";
-    }
-
-    function setStatus(msg, isError) {
-      statusEl.textContent = msg || "";
-      statusEl.style.color = isError ? "#b42318" : "#6d6d6d";
-    }
-
-    function hasText() {
-      return textMode.value === "yes";
-    }
-
-    function syncTextUi() {
-      const on = hasText();
-      textFieldsBlock.style.display = on ? "block" : "none";
-      mainTextInput.disabled = !on;
-      subTextInput.disabled = !on;
-      mainTextSize.disabled = !on;
-      subTextSize.disabled = !on;
-    }
-
-    function getTextBlockHeight() {
-      return hasText() ? BASE_TEXT_BLOCK : 24;
-    }
-
-    function getBoxes() {
-      const textBlock = getTextBlockHeight();
-      const innerW = canvas.width - FRAME * 2;
-      const innerH = canvas.height - FRAME * 2 - textBlock;
-
-      const scaleBoost = hasText() ? 1 : 1.07;
-      const boostedW = Math.min(innerW * scaleBoost, canvas.width - FRAME * 2);
-      const boostedH = Math.min(innerH * scaleBoost, canvas.height - FRAME * 2 - 12);
-
-      const x = FRAME + (innerW - boostedW) / 2;
-      const y = FRAME + (innerH - boostedH) / 2;
-      const w = boostedW;
-      const h = boostedH;
-
-      if (layoutSelect.value === "1") return [{ x, y, w, h }];
-
-      if (layoutSelect.value === "2") return [
-        { x, y, w: w / 2 - GAP / 2, h: h * 0.32 },
-        { x: x + w / 2 + GAP / 2, y, w: w / 2 - GAP / 2, h: h * 0.32 },
-        { x, y: y + h * 0.36, w, h: h * 0.64 }
-      ];
-
-      if (layoutSelect.value === "3") return [
-        { x, y, w: w * 0.48, h: h * 0.42 },
-        { x, y: y + h * 0.46, w: w * 0.48, h: h * 0.54 },
-        { x: x + w * 0.52, y, w: w * 0.48, h: h * 0.31 },
-        { x: x + w * 0.52, y: y + h * 0.35, w: w * 0.48, h: h * 0.65 }
-      ];
-
-      return [
-        { x, y, w: w * 0.48, h },
-        { x: x + w * 0.52, y, w: w * 0.48, h: h * 0.31 },
-        { x: x + w * 0.52, y: y + h * 0.35, w: w * 0.48, h: h * 0.30 },
-        { x: x + w * 0.52, y: y + h * 0.69, w: w * 0.48, h: h * 0.31 }
-      ];
-    }
-
-    function clampImageToBox(i) {
-      const boxes = getBoxes();
-      const box = boxes[i];
-      const d = images[i];
-      if (!d || !box) return;
-
-      const drawW = d.img.width * d.scale;
-      const drawH = d.img.height * d.scale;
-      const minX = box.x + box.w - drawW;
-      const maxX = box.x;
-      const minY = box.y + box.h - drawH;
-      const maxY = box.y;
-      d.x = Math.min(maxX, Math.max(minX, d.x));
-      d.y = Math.min(maxY, Math.max(minY, d.y));
-    }
-
-    function fitImageInBox(img, box, meta) {
-      const scale = Math.max(box.w / img.width, box.h / img.height);
-      const drawW = img.width * scale;
-      const drawH = img.height * scale;
-      return {
-        img,
-        scale,
-        x: box.x + (box.w - drawW) / 2,
-        y: box.y + (box.h - drawH) / 2,
-        fileName: meta?.fileName || null,
-        fileType: meta?.fileType || null,
-        driveUrl: meta?.driveUrl || null,
-        driveId: meta?.driveId || null,
-        uploadStatus: meta?.uploadStatus || "idle",
-        uploadError: meta?.uploadError || null
-      };
-    }
-
-    function draw() {
-      const boxes = getBoxes();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#f8f6f2";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      boxes.forEach((box, i) => {
-        ctx.strokeStyle = i === selectedBox ? "#121212" : "#d6d1c8";
-        ctx.lineWidth = i === selectedBox ? 2 : 1;
-        ctx.strokeRect(box.x, box.y, box.w, box.h);
-
-        if (!images[i]) {
-          ctx.fillStyle = "#ece8de";
-          ctx.fillRect(box.x + 1, box.y + 1, box.w - 2, box.h - 2);
-          ctx.fillStyle = "#8a8379";
-          ctx.font = "14px Inter, sans-serif";
-          ctx.textAlign = "center";
-          ctx.fillText("Box " + (i + 1), box.x + box.w / 2, box.y + box.h / 2);
-          return;
-        }
-
-        const d = images[i];
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(box.x, box.y, box.w, box.h);
-        ctx.clip();
-        ctx.drawImage(d.img, d.x, d.y, d.img.width * d.scale, d.img.height * d.scale);
-        ctx.restore();
-      });
-
-      if (hasText()) {
-        const ms = parseInt(mainTextSize.value, 10) || 26;
-        const ss = parseInt(subTextSize.value, 10) || 13;
-
-        const blockBottom = canvas.height - FRAME - 20;
-        const subY = blockBottom;
-        const lineY = subY - ss - 18;
-        const mainY = lineY - 8;
-
-        ctx.beginPath();
-        ctx.moveTo(FRAME + 140, lineY);
-        ctx.lineTo(canvas.width - FRAME - 140, lineY);
-        ctx.strokeStyle = "#121212";
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#121212";
-        ctx.font = '400 ' + ms + 'px "Inter", sans-serif';
-        ctx.fillText(mainTextInput.value || "", canvas.width / 2, mainY);
-
-        ctx.font = '100 ' + ss + 'px "Inter", sans-serif';
-        ctx.fillText(subTextInput.value || "", canvas.width / 2, subY);
-      }
-    }
-
-    function resetForLayout() {
-      const boxes = getBoxes();
-      const next = [];
-      for (let i = 0; i < boxes.length; i++) {
-        if (images[i]?.img) {
-          next[i] = fitImageInBox(images[i].img, boxes[i], images[i]);
-        } else next[i] = null;
-      }
-      images = next;
-      if (selectedBox >= boxes.length) selectedBox = boxes.length - 1;
-      if (selectedBox < 0) selectedBox = 0;
-      selectedInfo.textContent = "Selected box: " + (selectedBox + 1);
-      zoomRange.value = images[selectedBox] ? images[selectedBox].scale : 1;
-      draw();
-    }
-
-    function selectBoxAt(mx, my) {
-      const boxes = getBoxes();
-      for (let i = 0; i < boxes.length; i++) {
-        const b = boxes[i];
-        if (mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h) {
-          selectedBox = i;
-          selectedInfo.textContent = "Selected box: " + (selectedBox + 1);
-          zoomRange.value = images[i] ? images[i].scale : 1;
-          draw();
-          return i;
-        }
-      }
-      return -1;
-    }
-
-    function canvasCoordsFromEvent(e) {
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const clientX = e.clientX !== undefined ? e.clientX : 0;
-      const clientY = e.clientY !== undefined ? e.clientY : 0;
-      return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY
-      };
-    }
-
-    function getCustomer() {
-      return {
-        name: document.getElementById("custName").value.trim(),
-        email: document.getElementById("custEmail").value.trim(),
-        phone: document.getElementById("custPhone").value.trim(),
-        address: document.getElementById("custAddress").value.trim()
-      };
-    }
-
-    function getDesignSpec() {
-      const boxes = getBoxes();
-      return {
-        layout: layoutSelect.value,
-        textMode: textMode.value,
-        mainText: hasText() ? (mainTextInput.value || "") : "",
-        subText: hasText() ? (subTextInput.value || "") : "",
-        mainTextSize: hasText() ? parseInt(mainTextSize.value, 10) : null,
-        subTextSize: hasText() ? parseInt(subTextSize.value, 10) : null,
-        frameSku: frameSize.value,
-        frameLabel: frameSize.options[frameSize.selectedIndex].text,
-        boxes: boxes.map((b, i) => ({
-          index: i + 1,
-          rect: { x: b.x, y: b.y, w: b.w, h: b.h },
-          fileName: images[i]?.fileName || null,
-          driveUrl: images[i]?.driveUrl || null,
-          driveId: images[i]?.driveId || null,
-          uploadStatus: images[i]?.uploadStatus || null,
-          transform: images[i] ? { x: images[i].x, y: images[i].y, scale: images[i].scale } : null
-        }))
-      };
-    }
-
-    function validateForm() {
-      const c = getCustomer();
-      if (!c.name) return "Please enter your full name.";
-      if (!c.phone) return "Please enter your mobile number.";
-      if (!c.address) return "Please enter your delivery address.";
-      if (c.email && !/^\S+@\S+\.\S+$/.test(c.email)) return "Please check your email.";
-      const hasImg = images.some(Boolean);
-      const cartLen = loadCart().length;
-      if (!hasImg && cartLen === 0) {
-        return "Upload at least one image, or add a frame to cart first.";
-      }
-      return "";
-    }
-
-    function buildCartPayload() {
-      return {
-        qty: 1,
-        customer: getCustomer(),
-        design: getDesignSpec(),
-        createdAt: new Date().toISOString()
-      };
-    }
-
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const r = new FileReader();
-        r.onload = () => {
-          const s = String(r.result || "");
-          resolve(s.includes(",") ? s.split(",")[1] : s);
-        };
-        r.onerror = reject;
-        r.readAsDataURL(file);
-      });
-    }
-
-    async function uploadToDrive(file, suggestedName) {
-      if (!CONFIG.DRIVE_UPLOAD_URL || !CONFIG.UPLOAD_SECRET) {
-        return { ok: false, error: "Drive not configured" };
-      }
-      const base64 = await fileToBase64(file);
-      const payload = JSON.stringify({
-        secret: CONFIG.UPLOAD_SECRET,
-        fileName: suggestedName,
-        mimeType: file.type || "application/octet-stream",
-        base64: base64
-      });
-      const body = new URLSearchParams();
-      body.set("payload", payload);
-
-      const res = await fetch(CONFIG.DRIVE_UPLOAD_URL, {
-        method: "POST",
-        body: body
-      });
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        return { ok: false, error: text || "bad response" };
-      }
-      if (!data.ok) return { ok: false, error: data.error || "upload failed" };
-      return { ok: true, url: data.url, id: data.id, name: data.name };
-    }
-
-    function driveConfigured() {
-      return Boolean(CONFIG.DRIVE_UPLOAD_URL && CONFIG.UPLOAD_SECRET);
-    }
-
-    function showWaFallback(message) {
-      waMessageCopy.value = message;
-      const enc = encodeURIComponent(message);
-      waDirectLink.href = "https://wa.me/" + CONFIG.916287656368 + "?text=" + enc;
-      waFallback.classList.add("visible");
-    }
-
-    function hideWaFallback() {
-      waFallback.classList.remove("visible");
-    }
-
-    function openWhatsAppSmart(message) {
-      hideWaFallback();
-      const enc = encodeURIComponent(message);
-      const waWeb = "https://wa.me/" + CONFIG.916287656368 + "?text=" + enc;
-
-      /* Same-tab navigation avoids popup blockers and many “blocked” errors. */
-      window.location.assign(waWeb);
-
-      setTimeout(function () {
-        showWaFallback(message);
-      }, 2500);
-    }
-
-    copyMsgBtn.addEventListener("click", function () {
-      waMessageCopy.select();
-      document.execCommand("copy");
-      setStatus("Message copied. Paste it in WhatsApp.");
-    });
-
-    uploadBtn.addEventListener("click", function () {
-      filePicker.value = "";
-      filePicker.click();
-    });
-
-    filePicker.addEventListener("change", function (e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-
-      const boxes = getBoxes();
-      const box = boxes[selectedBox];
-      if (!box) return;
-
-      const reader = new FileReader();
-      reader.onload = function (ev) {
-        const img = new Image();
-        img.onload = function () {
-          const slot = selectedBox;
-          images[slot] = fitImageInBox(img, box, {
-            fileName: file.name,
-            fileType: file.type || "application/octet-stream",
-            uploadStatus: driveConfigured() ? "uploading" : "skipped"
-          });
-          zoomRange.value = images[slot].scale;
-          draw();
-
-          if (!driveConfigured()) {
-            setStatus("Photo added. Add Google Drive script URL in CONFIG to auto-upload originals.");
-            return;
-          }
-
-          setStatus("Uploading original to Drive…");
-          const safeName =
-            "WLF-" + Date.now() + "-box" + (slot + 1) + "-" + file.name.replace(/[^\w.\-]+/g, "_");
-
-          uploadToDrive(file, safeName)
-            .then(function (r) {
-              if (r.ok) {
-                images[slot].driveUrl = r.url;
-                images[slot].driveId = r.id;
-                images[slot].uploadStatus = "ok";
-                setStatus("Box " + (slot + 1) + ": original saved to Drive.");
-              } else {
-                images[slot].uploadStatus = "error";
-                images[slot].uploadError = r.error;
-                setStatus("Drive upload failed: " + r.error + " — you can still download preview.", true);
-              }
-            })
-            .catch(function (err) {
-              images[slot].uploadStatus = "error";
-              images[slot].uploadError = String(err);
-              setStatus("Drive upload failed. Check script URL / permissions.", true);
-            });
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    function onPointerDown(e) {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      const p = canvasCoordsFromEvent(e);
-      const hit = selectBoxAt(p.x, p.y);
-      if (hit >= 0 && images[hit]) {
-        dragging = true;
-        activePointerId = e.pointerId;
-        dragLast = { x: p.x, y: p.y };
-        canvas.classList.add("dragging");
-        try {
-          canvas.setPointerCapture(e.pointerId);
-        } catch (_) {}
-      }
-    }
-
-    function onPointerMove(e) {
-      if (!dragging || e.pointerId !== activePointerId) return;
-      if (!images[selectedBox]) return;
-      const p = canvasCoordsFromEvent(e);
-      const dx = p.x - dragLast.x;
-      const dy = p.y - dragLast.y;
-      dragLast = { x: p.x, y: p.y };
-      images[selectedBox].x += dx;
-      images[selectedBox].y += dy;
-      clampImageToBox(selectedBox);
-      draw();
-    }
-
-    function onPointerEnd(e) {
-      if (e.pointerId !== activePointerId) return;
-      dragging = false;
-      activePointerId = null;
-      canvas.classList.remove("dragging");
-      try {
-        canvas.releasePointerCapture(e.pointerId);
-      } catch (_) {}
-    }
-
-    canvas.addEventListener("pointerdown", onPointerDown);
-    canvas.addEventListener("pointermove", onPointerMove);
-    canvas.addEventListener("pointerup", onPointerEnd);
-    canvas.addEventListener("pointercancel", onPointerEnd);
-
-    canvas.addEventListener("wheel", function (e) {
-      if (!images[selectedBox]) return;
-      e.preventDefault();
-      const d = images[selectedBox];
-      d.scale = Math.max(0.2, Math.min(4, d.scale + e.deltaY * -0.0015));
-      clampImageToBox(selectedBox);
-      zoomRange.value = d.scale;
-      draw();
-    }, { passive: false });
-
-    zoomRange.addEventListener("input", function () {
-      if (!images[selectedBox]) return;
-      images[selectedBox].scale = parseFloat(zoomRange.value);
-      clampImageToBox(selectedBox);
-      draw();
-    });
-
-    mainTextSize.addEventListener("input", function () {
-      mainTextSizeVal.textContent = mainTextSize.value;
-      draw();
-    });
-    subTextSize.addEventListener("input", function () {
-      subTextSizeVal.textContent = subTextSize.value;
-      draw();
-    });
-
-    layoutSelect.addEventListener("change", resetForLayout);
-    textMode.addEventListener("change", function () {
-      syncTextUi();
-      if (!hasText()) {
-        mainTextInput.value = "";
-        subTextInput.value = "";
-      }
-      resetForLayout();
-    });
-    mainTextInput.addEventListener("input", draw);
-    subTextInput.addEventListener("input", draw);
-
-    downloadPreviewBtn.addEventListener("click", function () {
-      canvas.toBlob(function (blob) {
-        if (!blob) {
-          setStatus("Could not create preview file.", true);
-          return;
-        }
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "wallitude-preview.png";
-        a.click();
-        URL.revokeObjectURL(a.href);
-        setStatus("Preview PNG downloaded.");
-      }, "image/png");
-    });
-
-    function resetEditorForNewFrame() {
-      images = [];
-      selectedBox = 0;
-      layoutSelect.value = "1";
-      textMode.value = "yes";
-      mainTextInput.value = "";
-      subTextInput.value = "";
-      mainTextSize.value = 26;
-      subTextSize.value = 13;
-      mainTextSizeVal.textContent = "26";
-      subTextSizeVal.textContent = "13";
-      zoomRange.value = 1;
-      frameSize.selectedIndex = 0;
-      syncTextUi();
-      resetForLayout();
-      setStatus("New blank frame — design your next item.");
-    }
-
-    addToCartBtn.addEventListener("click", function () {
-      const err = validateForm();
-      if (err) {
-        setStatus(err, true);
-        return;
-      }
-      if (!images.some(Boolean)) {
-        setStatus("Upload at least one image before adding to cart.", true);
-        return;
-      }
-      if (driveConfigured()) {
-        const pending = images.some(function (im, i) {
-          return im && im.uploadStatus === "uploading";
-        });
-        if (pending) {
-          setStatus("Wait until Drive upload finishes for all photos.", true);
-          return;
-        }
-      }
-      const cart = loadCart();
-      cart.push(buildCartPayload());
-      saveCart(cart);
-      setStatus("Added to cart. Start a new frame below.");
-      resetEditorForNewFrame();
-    });
-
-    placeOrderBtn.addEventListener("click", function () {
-      const err = validateForm();
-      if (err) {
-        setStatus(err, true);
-        return;
-      }
-
-      if (driveConfigured()) {
-        const pending = images.some(function (im) {
-          return im && im.uploadStatus === "uploading";
-        });
-        if (pending) {
-          setStatus("Wait until all originals finish uploading to Drive.", true);
-          return;
-        }
-        const failed = images.some(function (im) {
-          return im && im.uploadStatus === "error";
-        });
-        if (failed) {
-          setStatus("Some Drive uploads failed. Fix CONFIG or retry uploads before placing order.", true);
-          return;
-        }
-      }
-
-      const cart = loadCart();
-      const currentHasFrame = images.some(Boolean);
-      const current = currentHasFrame ? buildCartPayload() : null;
-      const allItems = current ? cart.concat([current]) : cart.slice();
-      if (allItems.length === 0) {
-        setStatus("Nothing to order — design a frame or add to cart.", true);
-        return;
-      }
-
-      placeOrderBtn.disabled = true;
-      setStatus("Preparing order…");
-
-      const run = async function () {
-        let previewDriveUrl = "";
-        if (driveConfigured() && currentHasFrame) {
-          const blob = await new Promise(function (resolve) {
-            canvas.toBlob(resolve, "image/png");
-          });
-          if (blob) {
-            const prevFile = new File(
-              [blob],
-              "WLF-preview-" + Date.now() + ".png",
-              { type: "image/png" }
-            );
-            const up = await uploadToDrive(prevFile, prevFile.name);
-            if (up.ok) previewDriveUrl = up.url;
-          }
-        }
-
-        const lines = [];
-        lines.push("WALLITUDE ORDER");
-        lines.push("");
-        if (previewDriveUrl) {
-          lines.push("Preview PNG (layout + text):");
-          lines.push(previewDriveUrl);
-          lines.push("");
-        } else {
-          if (currentHasFrame) {
-            lines.push("Preview: use Download preview (PNG) or enable Drive in CONFIG to auto-upload preview.");
-          } else {
-            lines.push("Preview: ordering cart only — previews are in each item’s Drive links above.");
-          }
-          lines.push("");
-        }
-
-        allItems.forEach(function (item, idx) {
-          const d = item.design;
-          lines.push("---");
-          lines.push("Item " + (idx + 1) + " / " + allItems.length);
-          lines.push("Frame: " + d.frameLabel);
-          lines.push("Layout: " + d.layout);
-          lines.push("Text: " + (d.textMode === "yes" ? "Yes" : "No"));
-          if (d.textMode === "yes") {
-            lines.push("Main: " + (d.mainText || ""));
-            lines.push("Small: " + (d.subText || ""));
-            lines.push("Sizes px — main: " + d.mainTextSize + ", small: " + d.subTextSize);
-          }
-          lines.push("High-res originals (Google Drive):");
-          d.boxes.forEach(function (b) {
-            if (b.fileName) {
-              var line = "  Box " + b.index + ": " + b.fileName;
-              if (b.driveUrl) line += " -> " + b.driveUrl;
-              lines.push(line);
-            }
-          });
-          lines.push("Crop (canvas px, for reference):");
-          d.boxes.forEach(function (b) {
-            if (b.transform) {
-              lines.push(
-                "  Box " + b.index + ": x=" + Math.round(b.transform.x) +
-                " y=" + Math.round(b.transform.y) +
-                " scale=" + b.transform.scale.toFixed(3)
-              );
-            }
-          });
-          lines.push("");
-        });
-
-        const c = getCustomer();
-        lines.push("---");
-        lines.push("CUSTOMER");
-        lines.push("Name: " + c.name);
-        if (c.email) lines.push("Email: " + c.email);
-        lines.push("Mobile: " + c.phone);
-        lines.push("Address:");
-        lines.push(c.address);
-
-        var msg = lines.join("\n");
-        if (msg.length > 3500) msg = msg.slice(0, 3500) + "\n…(trimmed)";
-
-        openWhatsAppSmart(msg);
-        setStatus(
-          driveConfigured()
-            ? "WhatsApp opened — message includes Drive links for originals + preview."
-            : "WhatsApp opened — add Drive URLs in CONFIG to auto-upload next time."
-        );
-
-        saveCart([]);
-        resetEditorForNewFrame();
-        placeOrderBtn.disabled = false;
-      };
-
-      run().catch(function (e) {
-        setStatus("Order prep failed: " + e, true);
-        placeOrderBtn.disabled = false;
-      });
-    });
-
-    syncTextUi();
-    updateCartBadge();
-    resetForLayout();
-
-    if (!driveConfigured()) {
-      setStatus("Tip: add https://script.google.com/macros/s/AKfycbwoWxIjsDfFdv_ZeIy3RMUcSPaMG1ncu-8KGsK3yl5ved3AVo7tfG7XARLskFX9Lw/exec + wallitude_7JmQ3xP9tK2nR5a to send originals to Drive automatically.");
-    }
-  </script>
 </body>
 </html>
