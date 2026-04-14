@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Return &amp; Replacement Policy – Wallitude</title>
+  <meta name="description" content="Wallitude's Return and Replacement Policy — understand our process for damaged or incorrect orders.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Root tokens — identical to index.html ─────────────────── */
+    :root {
+      --ink:    #121212;
+      --cream:  #f6f3ee;
+      --gold:   #b89a5a;
+      --muted:  #7a7a7a;
+      --border: #ddd8cf;
+      --white:  #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* ── Header — identical to index.html ──────────────────────── */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ink); height: 58px;
+      display: flex; align-items: center;
+      justify-content: space-between; padding: 0 28px;
+    }
+    .header-logo-img { height: 28px; width: auto; display: block; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .header-contact {
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.06em; color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px; border-radius: 3px;
+      transition: color .2s, border-color .2s; cursor: pointer;
+    }
+    .header-contact:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
+    .cart-icon-wrap {
+      position: relative; cursor: pointer;
+      color: #fff; text-decoration: none;
+    }
+    .cart-icon-wrap svg { display: block; }
+    .cart-badge {
+      display: none; position: absolute;
+      top: -7px; right: -7px;
+      width: 18px; height: 18px;
+      background: var(--gold); color: #fff;
+      font-size: 10px; font-weight: 600;
+      border-radius: 50%;
+      align-items: center; justify-content: center;
+    }
+
+    /* ── Policy page layout ────────────────────────────────────── */
+    .policy-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+    .breadcrumb {
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.06em; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .breadcrumb a { color: var(--muted); transition: color .15s; }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb span { opacity: 0.4; }
+    .policy-title {
+      font-size: 26px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 8px; line-height: 1.2;
+    }
+    .policy-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 40px; font-weight: 400; }
+    .policy-rule { border: none; border-top: 1px solid var(--border); margin-bottom: 40px; }
+    .policy-section { margin-bottom: 36px; }
+    .policy-section h2 {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink); margin-bottom: 12px;
+    }
+    .policy-section p {
+      font-size: 14px; font-weight: 400;
+      line-height: 1.8; color: #3a3a3a; margin-bottom: 10px;
+    }
+    .policy-section ul { list-style: none; padding: 0; margin: 6px 0 10px; }
+    .policy-section ul li {
+      font-size: 14px; line-height: 1.8; color: #3a3a3a;
+      padding-left: 18px; position: relative;
+    }
+    .policy-section ul li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); font-weight: 300;
+    }
+
+    /* Important notice box */
+    .policy-notice {
+      background: var(--white);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      padding: 16px 20px;
+      margin: 10px 0 10px;
+    }
+    .policy-notice p {
+      font-size: 13px; line-height: 1.7;
+      color: var(--muted); margin: 0;
+    }
+    .policy-notice strong { color: var(--ink); }
+
+    /* Contact block */
+    .policy-contact {
+      margin-top: 48px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 28px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 14px;
+    }
+    .policy-contact p { font-size: 13px; color: var(--muted); }
+    .policy-contact strong { color: var(--ink); }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25d366; color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      padding: 10px 20px; border-radius: 6px;
+      transition: opacity .15s; white-space: nowrap;
+    }
+    .wa-btn:hover { opacity: 0.88; }
+
+    /* ── Footer — identical to index.html ──────────────────────── */
+    .footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 28px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-left { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+    .footer-logo {
+      font-weight: 300; font-size: 16px;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .footer-logo-img { height: 52px; width: auto; display: block; opacity: 0.85; }
+    .footer-links {
+      display: flex; gap: 20px;
+      font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .header { padding: 0 16px; }
+      .header-contact { padding: 5px 10px; font-size: 11px; }
+      .policy-wrap { padding: 36px 16px 60px; }
+      .policy-title { font-size: 20px; }
+      .footer { flex-direction: column; align-items: flex-start; }
+      .policy-contact { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────────────── -->
+  <header class="header">
+    <a href="index.html">
+      <img src="images/logo-wordmark.png" alt="Wallitude" class="header-logo-img">
+    </a>
+    <div class="header-right">
+      <a href="tracking.html" class="header-contact">Track Order</a>
+      <a href="https://wa.me/916287656368?text=Hi%2C%20I%20have%20a%20query%20about%20Wallitude%20frames."
+         class="header-contact" target="_blank" rel="noopener">Contact us</a>
+      <a href="cart.html" class="cart-icon-wrap" aria-label="View cart">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M2 2h2l2.68 11.39a2 2 0 0 0 1.95 1.61h7.72a2 2 0 0 0 1.97-1.69l1.18-7.62H5"
+                stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9"  cy="19" r="1.2" fill="#fff"/>
+          <circle cx="17" cy="19" r="1.2" fill="#fff"/>
+        </svg>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ── CONTENT ─────────────────────────────────────────────── -->
+  <main class="policy-wrap">
+
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>Return &amp; Replacement Policy</span>
+    </nav>
+
+    <h1 class="policy-title">Return &amp; Replacement Policy</h1>
+    <p class="policy-subtitle">Last updated: April 2026</p>
+    <hr class="policy-rule">
+
+    <p style="font-size:14px;line-height:1.8;color:#3a3a3a;margin-bottom:36px;">
+      At Wallitude, all our products are custom-made, so returns are limited. Please read carefully.
+    </p>
+
+    <div class="policy-section">
+      <h2>1. No Return Policy</h2>
+      <p>Since each product is personalized based on your uploaded images and design, we do not accept returns once the order is placed.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2>2. Replacement Eligibility</h2>
+      <p>We offer replacements only in the following cases:</p>
+      <ul>
+        <li>Damaged product upon delivery</li>
+        <li>Wrong product delivered</li>
+        <li>Manufacturing defects</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>3. Proof Requirement</h2>
+      <p>To request a replacement, you must:</p>
+      <ul>
+        <li>Contact us within <strong>48 hours</strong> of delivery</li>
+        <li>Provide clear photos or videos of the issue</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>4. Replacement Process</h2>
+      <p>Once approved:</p>
+      <ul>
+        <li>A replacement will be processed at no extra cost</li>
+        <li>No refunds will be issued — only replacements</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>5. Design Responsibility</h2>
+      <p>Customers are responsible for:</p>
+      <ul>
+        <li>Uploading correct images</li>
+        <li>Checking spelling, layout, and preview before placing the order</li>
+      </ul>
+      <div class="policy-notice">
+        <p><strong>Please note:</strong> Wallitude is not responsible for errors in customer-approved designs. Please review your preview carefully before completing your order.</p>
+      </div>
+    </div>
+
+    <div class="policy-section">
+      <h2>6. Cancellation Policy</h2>
+      <p>Orders cannot be cancelled once they are processed or sent for production.</p>
+    </div>
+
+    <div class="policy-contact">
+      <p><strong>Need a replacement?</strong><br>Contact us within 48 hours of delivery on WhatsApp.</p>
+      <a class="wa-btn"
+         href="https://wa.me/916287656368?text=Hi%2C%20I%20need%20help%20with%20a%20replacement%20request."
+         target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+        </svg>
+        +91 6287656368
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────── -->
+  <footer class="footer">
+    <span class="footer-left">Contact us : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="91f8fff7fed1e6f0fdfdf8e5e4f5f4bff2fefc">[email&#160;protected]</a> &nbsp;|&nbsp;
+      <a href="https://instagram.com/wallitude.co" target="_blank" rel="noopener"
+         style="color:inherit">Instagram</a>
+    </span>
+    <div class="footer-logo">
+      <img src="images/logo-full.png" alt="Wallitude" class="footer-logo-img">
+    </div>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="return-replacement-policy.html">Return Policy</a>
+      <a href=
