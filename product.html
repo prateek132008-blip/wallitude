@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wallitude — Preview Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,300;0,400;0,500;0,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --ink: #121212;
+      --muted: #6d6d6d;
+      --card: #ffffff;
+      --border: #e2ddd5;
+      --gold: #121212;
+      --frame-border: 3px solid #111;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .header {
+      background: var(--gold);
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes logoFade {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-img {
+      height: 38px;
+      width: auto;
+      mix-blend-mode: screen;
+      animation: logoFade 1s cubic-bezier(.22,.68,0,1.2) both;
+    }
+
+    /* ── Page ───────────────────────────────────────────────── */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 18px 72px;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+
+    /* ── Steps ──────────────────────────────────────────────── */
+    .step { margin-bottom: 32px; }
+
+    .step-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-weight: 400;
+    }
+
+    .step-label strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .sep {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 28px;
+    }
+
+    /* ── Layout thumbnails ──────────────────────────────────── */
+    .layout-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+
+    .layout-row::-webkit-scrollbar { display: none; }
+
+    .layout-thumb {
+      flex: 0 0 auto;
+      cursor: pointer;
+      border: 2.5px solid transparent;
+      border-radius: 3px;
+      padding: 3px;
+      transition: border-color .15s;
+    }
+
+    .layout-thumb.active { border-color: var(--ink); }
+
+    /* ── Size selection ─────────────────────────────────────── */
+    .size-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      padding: 8px 0;
+    }
+
+    .size-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .size-frame {
+      background: #fff;
+      border: 3px solid #111;
+      transition: box-shadow .15s;
+    }
+
+    .size-card.active .size-frame {
+      box-shadow: 0 0 0 2.5px var(--ink);
+    }
+
+    .size-info {
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .size-name {
+      font-size: 12px;
+      font-weight: 500;
+      display: block;
+      color: var(--ink);
+    }
+
+    .size-dims {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+    }
+
+    .size-price {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--ink);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .size-delivery {
+      font-size: 10px;
+      color: var(--muted);
+      display: block;
+    }
+
+    /* ── Text selector ──────────────────────────────────────── */
+    .text-toggle {
+      display: flex;
+    }
+
+    .ttbtn {
+      padding: 8px 22px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0.06em;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+
+    .ttbtn:first-child {
+      border-radius: 4px 0 0 4px;
+      border-right: none;
+    }
+
+    .ttbtn:last-child { border-radius: 0 4px 4px 0; }
+
+    .ttbtn.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .text-sub {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .text-sub.open { display: block; }
+
+    .liner-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .liner-check {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: var(--ink);
+      cursor: pointer;
+    }
+
+    .liner-label {
+      font-size: 13px;
+      color: var(--ink);
+      cursor: pointer;
+      padding-top: 1px;
+      min-width: 76px;
+    }
+
+    .liner-inputs {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .liner-inputs.open { display: flex; }
+
+    .liner-inputs input {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px 11px;
+      font-size: 13px;
+      font-family: "Inter", sans-serif;
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .liner-inputs input:focus { border-color: var(--ink); }
+
+    /* ── Canvas area ────────────────────────────────────────── */
+    .canvas-section {
+      margin: 0 auto;
+      max-width: 540px;
+    }
+
+    .upload-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: "Inter", sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background .15s, color .15s;
+    }
+
+    .upload-btn:hover {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .upload-btn svg { flex-shrink: 0; }
+
+    .box-pill {
+      font-size: 12px;
+      color: var(--muted);
+      background: #eee;
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+
+    #canvas {
+      display: block;
+      width: 100%;
+      border: 14px solid #111;
+      border-radius: 2px;
+      background: #f8f6f2;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    #canvas.dragging { cursor: grabbing; }
+
+    .zoom-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .zoom-icon { color: var(--muted); font-size: 14px; }
+
+    .zoom-bar input[type="range"] {
+      flex: 1;
+      accent-color: var(--ink);
+      height: 4px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #aaa;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* ── Action buttons ─────────────────────────────────────── */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      max-width: 540px;
+      margin: 22px auto 0;
+    }
+
+    .btn-cart, .btn-buy {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-cart:active, .btn-buy:active { transform: scale(0.98); }
+
+    .btn-cart {
+      background: #fff;
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+    }
+    .btn-cart:hover { background: #f0ede6; }
+
+    .btn-buy {
+      background: var(--ink);
+      color: #fff;
+    }
+    .btn-buy:hover { opacity: 0.85; }
+
+    /* ── Header cart nav ─────────────────────────────────────── */
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .nav-home {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .nav-home:hover { color: #fff; }
+
+    .cart-icon-wrap {
+      position: relative;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+    }
+    .cart-badge {
+      display: none;
+      position: absolute;
+      top: -7px; right: -7px;
+      width: 18px; height: 18px;
+      background: #b89a5a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Toast notification ─────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink);
+      color: #fff;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      z-index: 9999;
+      transition: transform .3s cubic-bezier(.22,.68,0,1.2), opacity .3s;
+      opacity: 0;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 440px) {
+      .page { padding: 24px 14px 60px; }
+      .ttbtn { padding: 8px 14px; font-size: 11px; }
+      .liner-label { min-width: 60px; }
+    }
+  </style>
+
+  <!-- ── Meta Pixel ─────────────────────────────────────────── -->
+  <!-- SETUP: Replace YOUR_PIXEL_ID below with your actual Pixel ID -->
+  <!-- Find it at: business.facebook.com → Events Manager → Your Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- ── End Meta Pixel ─────────────────────────────────────── -->
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html" class="nav-home">← Back</a>
+    <img class="logo-img" src="images/logo-wordmark.png" alt="Wallitude">
+      <div class="header-nav">
+      <a href="tracking.html" class="nav-home" style="margin-right:4px;">Track Order</a>
+      <a href="cart.html" class="cart-icon-wrap" aria-label="View cart">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M2 2h2l2.68 11.39a2 2 0 0 0 1.95 1.61h7.72a2 2 0 0 0 1.97-1.69l1.18-7.62H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="19" r="1.2" fill="#fff"/>
+          <circle cx="17" cy="19" r="1.2" fill="#fff"/>
+        </svg>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1 class="page-title">Preview Builder</h1>
+
+    <!-- ── Step 1: Layout ──────────────────────────────────── -->
+    <div class="step">
+      <p class="step-label">Select your <strong>layout :</strong></p>
+      <div class="layout-row" id="layoutRow"></div>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ── Step 2: Size ───────────────────────────────────── -->
+    <div class="step">
+      <p class="step-label">Select your <strong>Size :</strong></p>
+      <div class="size-row">
+        <div class="size-card active" id="sizeA4" onclick="selectSize('A4')">
+          <div class="size-frame" style="width:58px;height:77px;"></div>
+          <div class="size-info">
+            <span class="size-name">A4</span>
+            <span class="size-dims">12×9 inches</span>
+            <span class="size-price">₹1,099</span>
+            <span class="size-delivery">incl. free delivery</span>
+          </div>
+        </div>
+        <div class="size-card" id="sizeA3" onclick="selectSize('A3')">
+          <div class="size-frame" style="width:78px;height:117px;"></div>
+          <div class="size-info">
+            <span class="size-name">A3</span>
+            <span class="size-dims">18×12 inches</span>
+            <span class="size-price">₹1,499</span>
+            <span class="size-delivery">incl. free delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ── Step 3: Text ───────────────────────────────────── -->
+    <div class="step">
+      <p class="step-label">Select your <strong>Text :</strong></p>
+
+      <div class="text-toggle">
+        <button class="ttbtn active" id="btnWith" onclick="setTextMode('with')">WITH TEXT</button>
+        <button class="ttbtn" id="btnWithout" onclick="setTextMode('none')">WITHOUT TEXT</button>
+      </div>
+
+      <div class="text-sub open" id="textSub">
+        <!-- One liner -->
+        <div class="liner-row">
+          <input class="liner-check" type="checkbox" id="chkOne">
+          <label class="liner-label" for="chkOne">One liner</label>
+          <div class="liner-inputs" id="inpOne">
+            <input type="text" id="line1" placeholder="e.g. Our favourite Sunday">
+          </div>
+        </div>
+
+        <!-- Two liner -->
+        <div class="liner-row">
+          <input class="liner-check" type="checkbox" id="chkTwo">
+          <label class="liner-label" for="chkTwo">Two liner</label>
+          <div class="liner-inputs" id="inpTwo">
+            <input type="text" id="line2a" placeholder="e.g. Our favourite Sunday">
+            <input type="text" id="line2b" placeholder="e.g. Mumbai · 2024">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep">
+
+    <!-- ── Step 4: Canvas ─────────────────────────────────── -->
+    <div class="canvas-section">
+      <div class="upload-bar">
+        <button class="upload-btn" onclick="document.getElementById('fp').click()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1v9M3.5 4L7 1l3.5 3M1 11h12v1.5H1z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Upload photo
+        </button>
+        <span class="box-pill" id="boxPill">Box 1 of 1 selected</span>
+      </div>
+      <input type="file" id="fp" accept="image/*" style="display:none">
+
+      <canvas id="canvas" width="600" height="800"></canvas>
+
+      <div class="zoom-bar">
+        <span class="zoom-icon">—</span>
+        <input type="range" id="zoomRange" min="0" max="1" step="0.001" value="0">
+        <span class="zoom-icon">+</span>
+      </div>
+      <p class="hint">Tap a box to select · Drag to reposition · Scroll / pinch to zoom</p>
+    </div>
+
+    <!-- ── Action Buttons ──────────────────────────────────── -->
+    <div class="action-row">
+      <button class="btn-cart" id="btnAddCart">
+        <svg width="16" height="16" viewBox="0 0 22 22" fill="none">
+          <path d="M2 2h2l2.68 11.39a2 2 0 0 0 1.95 1.61h7.72a2 2 0 0 0 1.97-1.69l1.18-7.62H5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="19" r="1.2" fill="currentColor"/>
+          <circle cx="17" cy="19" r="1.2" fill="currentColor"/>
+        </svg>
+        Add to Cart
+      </button>
+      <button class="btn-buy" id="btnBuyNow">
+        Buy Now
+      </button>
+    </div>
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+  // ═══════════════════════════════════════════════════════════
+  //  STATE
+  // ═══════════════════════════════════════════════════════════
+  let curLayout   = 1;       // 1–4
+  let curSize     = 'A4';    // 'A4' | 'A3'
+  let textMode    = 'with';  // 'with' | 'none'
+  let lineMode    = 'none';  // 'none' | 'one' | 'two'
+
+  let images      = [];
+  let selectedBox = 0;
+  let dragging    = false;
+  let activePid   = null;
+  let dragLast    = { x: 0, y: 0 };
+
+  const canvas = document.getElementById('canvas');
+  const ctx    = canvas.getContext('2d');
+
+  // Canvas pixel dimensions for each paper size
+  const DIMS = {
+    A4: { w: 600, h: 800  }, // 3:4 (portrait A4)
+    A3: { w: 600, h: 900  }  // 2:3 (portrait A3)
+  };
+
+  const FRAME = 46;  // inner white margin (canvas px)
+  const GAP   = 10;  // gap between image cells
+
+  // ═══════════════════════════════════════════════════════════
+  //  LAYOUT THUMBNAILS
+  // ═══════════════════════════════════════════════════════════
+  // Each layout defined as proportional rects [x,y,w,h] in 0-1 space
+  const LAYOUTS = [
+    // 1 — single portrait
+    [{ x:.05, y:.05, w:.90, h:.90 }],
+
+    // 2 — two small on top, one wide below
+    [
+      { x:.05,  y:.05,  w:.425, h:.30 },
+      { x:.525, y:.05,  w:.425, h:.30 },
+      { x:.05,  y:.40,  w:.90,  h:.55 }
+    ],
+
+    // 3 — two left, two right (asymmetric)
+    [
+      { x:.05,  y:.05,  w:.425, h:.40 },
+      { x:.05,  y:.50,  w:.425, h:.45 },
+      { x:.525, y:.05,  w:.425, h:.27 },
+      { x:.525, y:.37,  w:.425, h:.58 }
+    ],
+
+    // 4 — one tall left, three stacked right
+    [
+      { x:.05,  y:.05,  w:.425, h:.90 },
+      { x:.525, y:.05,  w:.425, h:.26 },
+      { x:.525, y:.36,  w:.425, h:.26 },
+      { x:.525, y:.67,  w:.425, h:.26 }
+    ]
+  ];
+
+  function buildThumbs() {
+    const row = document.getElementById('layoutRow');
+    row.innerHTML = '';
+    const TW = 68, TH = 88;
+
+    LAYOUTS.forEach((cells, i) => {
+      const n = i + 1;
+      const div = document.createElement('div');
+      div.className = 'layout-thumb' + (n === curLayout ? ' active' : '');
+      div.onclick = () => selectLayout(n);
+
+      const rects = cells.map(c =>
+        `<rect x="${(c.x * TW).toFixed(1)}" y="${(c.y * TH).toFixed(1)}"
+               width="${(c.w * TW).toFixed(1)}" height="${(c.h * TH).toFixed(1)}"
+               fill="#525252" rx="1"/>`
+      ).join('');
+
+      div.innerHTML = `
+        <svg width="${TW}" height="${TH}" viewBox="0 0 ${TW} ${TH}"
+             xmlns="http://www.w3.org/2000/svg"
+             style="display:block;background:#f0ede6;border:2px solid #111;">
+          ${rects}
+        </svg>`;
+      row.appendChild(div);
+    });
+  }
+
+  function selectLayout(n) {
+    curLayout = n;
+    buildThumbs();
+    resetForLayout();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  SIZE
+  // ═══════════════════════════════════════════════════════════
+  function selectSize(s) {
+    curSize = s;
+    ['A4','A3'].forEach(id => {
+      document.getElementById('size' + id).classList.toggle('active', id === s);
+    });
+    const d = DIMS[s];
+    canvas.width  = d.w;
+    canvas.height = d.h;
+    resetForLayout();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  TEXT MODE
+  // ═══════════════════════════════════════════════════════════
+  function setTextMode(mode) {
+    textMode = mode;
+    document.getElementById('btnWith').classList.toggle('active',    mode === 'with');
+    document.getElementById('btnWithout').classList.toggle('active', mode === 'none');
+    document.getElementById('textSub').classList.toggle('open',      mode === 'with');
+
+    if (mode === 'none') {
+      lineMode = 'none';
+      document.getElementById('chkOne').checked = false;
+      document.getElementById('chkTwo').checked = false;
+      showLinerInputs('none');
+    }
+    resetForLayout();
+  }
+
+  function showLinerInputs(mode) {
+    document.getElementById('inpOne').classList.toggle('open', mode === 'one');
+    document.getElementById('inpTwo').classList.toggle('open', mode === 'two');
+  }
+
+  // Mutually exclusive checkbox behaviour
+  document.getElementById('chkOne').addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById('chkTwo').checked = false;
+      lineMode = 'one';
+    } else {
+      lineMode = 'none';
+    }
+    showLinerInputs(lineMode);
+    resetForLayout();
+  });
+
+  document.getElementById('chkTwo').addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById('chkOne').checked = false;
+      lineMode = 'two';
+    } else {
+      lineMode = 'none';
+    }
+    showLinerInputs(lineMode);
+    resetForLayout();
+  });
+
+  // Live-redraw on text typing
+  ['line1','line2a','line2b'].forEach(id => {
+    document.getElementById(id).addEventListener('input', draw);
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  //  TEXT BLOCK HEIGHT
+  // ═══════════════════════════════════════════════════════════
+  function textBlockH() {
+    if (textMode === 'none' || lineMode === 'none') return 0;  // full FRAME margin on both sides = centered
+    if (lineMode === 'one')  return 82;   // divider + single line
+    return 112;                           // main + divider + sub
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  BOX GEOMETRY
+  // ═══════════════════════════════════════════════════════════
+  function getBoxes() {
+    const tb = textBlockH();
+    const iW = canvas.width  - FRAME * 2;
+    const iH = canvas.height - FRAME * 2 - tb;
+    const x = FRAME, y = FRAME;
+    const w = iW,    h = iH;
+
+    if (curLayout === 1) return [{ x, y, w, h }];
+
+    if (curLayout === 2) return [
+      { x,               y, w: w/2 - GAP/2, h: h * 0.32 },
+      { x: x+w/2+GAP/2,  y, w: w/2 - GAP/2, h: h * 0.32 },
+      { x,               y: y + h * 0.36, w, h: h * 0.64 }
+    ];
+
+    if (curLayout === 3) return [
+      { x,              y,               w: w*.48, h: h*.42 },
+      { x,              y: y + h*.46,    w: w*.48, h: h*.54 },
+      { x: x + w*.52,   y,               w: w*.48, h: h*.30 },
+      { x: x + w*.52,   y: y + h*.35,    w: w*.48, h: h*.65 }
+    ];
+
+    // Layout 4
+    return [
+      { x,             y,            w: w*.48, h },
+      { x: x + w*.52,  y,            w: w*.48, h: h*.30 },
+      { x: x + w*.52,  y: y + h*.34, w: w*.48, h: h*.30 },
+      { x: x + w*.52,  y: y + h*.68, w: w*.48, h: h*.30 }
+    ];
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  IMAGE HELPERS
+  // ═══════════════════════════════════════════════════════════
+  function fitInBox(img, box, meta) {
+    const scale = Math.max(box.w / img.width, box.h / img.height);
+    const drawW = img.width  * scale;
+    const drawH = img.height * scale;
+    return {
+      img,
+      scale,
+      minZoom: scale,                          // fitted scale = minimum zoom
+      x: box.x + (box.w - drawW) / 2,
+      y: box.y + (box.h - drawH) / 2,
+      fileName: meta?.fileName || null
+    };
+  }
+
+  function clamp(i) {
+    const box = getBoxes()[i];
+    const d   = images[i];
+    if (!d || !box) return;
+    const dW = d.img.width  * d.scale;
+    const dH = d.img.height * d.scale;
+    d.x = Math.min(box.x,          Math.max(box.x + box.w - dW, d.x));
+    d.y = Math.min(box.y,          Math.max(box.y + box.h - dH, d.y));
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  DRAW
+  // ═══════════════════════════════════════════════════════════
+  function draw() {
+    const boxes = getBoxes();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background
+    ctx.fillStyle = '#f8f6f2';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Image cells
+    boxes.forEach((box, i) => {
+      const isSelected = i === selectedBox;
+
+      if (!images[i]) {
+        // Empty slot
+        ctx.fillStyle = '#e9e5dc';
+        ctx.fillRect(box.x, box.y, box.w, box.h);
+
+        ctx.strokeStyle = isSelected ? '#111' : '#c5bfb5';
+        ctx.lineWidth   = isSelected ? 2 : 1;
+        ctx.strokeRect(box.x + .5, box.y + .5, box.w - 1, box.h - 1);
+
+        // "+" placeholder
+        ctx.save();
+        ctx.fillStyle = isSelected ? '#888' : '#b5b0a7';
+        ctx.font = `${Math.min(box.w, box.h) * 0.18}px Inter, sans-serif`;
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('+', box.x + box.w / 2, box.y + box.h / 2);
+        ctx.restore();
+        return;
+      }
+
+      // Photo
+      const d = images[i];
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(box.x, box.y, box.w, box.h);
+      ctx.clip();
+      ctx.drawImage(d.img, d.x, d.y, d.img.width * d.scale, d.img.height * d.scale);
+      ctx.restore();
+
+      // Selection ring
+      if (isSelected) {
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth   = 2;
+        ctx.strokeRect(box.x + 1, box.y + 1, box.w - 2, box.h - 2);
+        ctx.strokeStyle = '#111';
+        ctx.lineWidth   = 1;
+        ctx.strokeRect(box.x - .5, box.y - .5, box.w + 1, box.h + 1);
+      }
+    });
+
+    // Text block
+    drawText();
+  }
+
+  function drawText() {
+    if (textMode === 'none' || lineMode === 'none') return;
+
+    const bottom = canvas.height - FRAME - 8;   // shifted 10px lower than before
+    const padX   = FRAME + 28;
+    const midX   = canvas.width / 2;
+
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle    = '#111';
+
+    if (lineMode === 'one') {
+      // Structure: Images → Divider → One Line
+      const textY    = bottom;
+      const dividerY = textY - 46;
+
+      drawDivider(padX, dividerY);
+
+      ctx.font = '400 20px "Inter", sans-serif';
+      ctx.fillText(document.getElementById('line1').value || '', midX, textY);
+
+    } else {
+      // Structure: Images → Main Line → Divider → Second Line
+      const subY  = bottom;
+      const divY  = subY - 32;
+      const mainY = divY - 22;
+
+      ctx.font = '400 25px "Inter", sans-serif';   // Inter Regular
+      ctx.fillText(document.getElementById('line2a').value || '', midX, mainY);
+
+      drawDivider(padX, divY);
+
+      ctx.font = '300 14px "Inter", sans-serif';   // Inter Light
+      ctx.fillText(document.getElementById('line2b').value || '', midX, subY);
+    }
+  }
+
+  function drawDivider(padX, y) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(padX, y);
+    ctx.lineTo(canvas.width - padX, y);
+    ctx.strokeStyle = '#111';
+    ctx.lineWidth   = 0.6;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  RESET / REFIT
+  // ═══════════════════════════════════════════════════════════
+  function resetForLayout() {
+    const boxes = getBoxes();
+    const next  = [];
+    boxes.forEach((box, i) => {
+      if (images[i]?.img) {
+        next[i] = fitInBox(images[i].img, boxes[i], images[i]);
+      } else {
+        next[i] = null;
+      }
+    });
+    images = next;
+    if (selectedBox >= boxes.length) selectedBox = boxes.length - 1;
+    if (selectedBox < 0)             selectedBox = 0;
+    updatePill();
+    draw();
+  }
+
+  function updatePill() {
+    const n = getBoxes().length;
+    document.getElementById('boxPill').textContent =
+      `Box ${selectedBox + 1} of ${n} selected`;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  FILE UPLOAD
+  // ═══════════════════════════════════════════════════════════
+  document.getElementById('fp').addEventListener('change', function(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const boxes = getBoxes();
+    const box   = boxes[selectedBox];
+    if (!box) return;
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const slot    = selectedBox;
+        images[slot]  = fitInBox(img, boxes[slot], { fileName: file.name });
+        syncSlider(slot);
+        draw();
+
+        // Auto-advance to next empty box
+        const boxes2 = getBoxes();
+        for (let i = 0; i < boxes2.length; i++) {
+          if (!images[i]) {
+            selectedBox = i;
+            updatePill();
+            draw();
+            break;
+          }
+        }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    // Allow re-uploading same file
+    e.target.value = '';
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  //  ZOOM SYSTEM  (normalized, slider t ∈ [0,1])
+  // ═══════════════════════════════════════════════════════════
+  const MAX_ZOOM_MULT = 3;  // maxZoom = minZoom × 3
+
+  function getMinZoom(i) { return images[i]?.minZoom ?? 1; }
+  function getMaxZoom(i) { return getMinZoom(i) * MAX_ZOOM_MULT; }
+
+  function tToScale(i, t) {
+    return getMinZoom(i) + t * (getMaxZoom(i) - getMinZoom(i));
+  }
+
+  function scaleToT(i, scale) {
+    const lo = getMinZoom(i), hi = getMaxZoom(i);
+    return Math.max(0, Math.min(1, (scale - lo) / (hi - lo)));
+  }
+
+  function applyScale(i, newScale) {
+    const d = images[i];
+    if (!d) return;
+    d.scale = Math.max(getMinZoom(i), Math.min(getMaxZoom(i), newScale));
+    clamp(i);
+    syncSlider(i);
+    draw();
+  }
+
+  function syncSlider(i) {
+    document.getElementById('zoomRange').value =
+      images[i] ? scaleToT(i, images[i].scale).toFixed(4) : '0';
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  //  POINTER / TOUCH / PINCH INTERACTION
+  // ═══════════════════════════════════════════════════════════
+  function toCanvas(e) {
+    const r  = canvas.getBoundingClientRect();
+    const sx = canvas.width  / r.width;
+    const sy = canvas.height / r.height;
+    return {
+      x: (e.clientX - r.left) * sx,
+      y: (e.clientY - r.top)  * sy
+    };
+  }
+
+  function hitBox(mx, my) {
+    const boxes = getBoxes();
+    for (let i = 0; i < boxes.length; i++) {
+      const b = boxes[i];
+      if (mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h) return i;
+    }
+    return -1;
+  }
+
+  // Multi-pointer map for pinch
+  const pointers        = new Map();
+  let   pinchStartDist  = 0;
+  let   pinchStartScale = 1;
+
+  function getPinchDist() {
+    const pts = [...pointers.values()];
+    const dx = pts[1].x - pts[0].x;
+    const dy = pts[1].y - pts[0].y;
+    return Math.hypot(dx, dy) || 1;
+  }
+
+  canvas.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const p = toCanvas(e);
+    pointers.set(e.pointerId, p);
+    try { canvas.setPointerCapture(e.pointerId); } catch(_) {}
+
+    if (pointers.size === 2) {
+      // Switch to pinch mode — stop any ongoing drag
+      dragging  = false;
+      activePid = null;
+      canvas.classList.remove('dragging');
+      if (images[selectedBox]) {
+        pinchStartDist  = getPinchDist();
+        pinchStartScale = images[selectedBox].scale;
+      }
+      return;
+    }
+
+    // Single pointer: box selection + drag
+    const hit = hitBox(p.x, p.y);
+    if (hit < 0) return;
+
+    selectedBox = hit;
+    syncSlider(hit);
+    updatePill();
+    draw();
+
+    if (images[hit]) {
+      dragging  = true;
+      activePid = e.pointerId;
+      dragLast  = p;
+      canvas.classList.add('dragging');
+    }
+  });
+
+  canvas.addEventListener('pointermove', e => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, toCanvas(e));
+
+    if (pointers.size === 2) {
+      // Pinch zoom
+      if (!images[selectedBox] || pinchStartDist === 0) return;
+      const ratio = getPinchDist() / pinchStartDist;
+      applyScale(selectedBox, pinchStartScale * ratio);
+      return;
+    }
+
+    // Single-pointer drag
+    if (!dragging || e.pointerId !== activePid || !images[selectedBox]) return;
+    const p  = toCanvas(e);
+    const dx = p.x - dragLast.x;
+    const dy = p.y - dragLast.y;
+    dragLast = p;
+    images[selectedBox].x += dx;
+    images[selectedBox].y += dy;
+    clamp(selectedBox);
+    draw();
+  });
+
+  function endPointer(e) {
+    pointers.delete(e.pointerId);
+    if (e.pointerId === activePid) {
+      dragging  = false;
+      activePid = null;
+      canvas.classList.remove('dragging');
+    }
+    // If one finger lifted during pinch, reset pinch baseline
+    if (pointers.size === 1 && images[selectedBox]) {
+      pinchStartDist  = 0;
+      pinchStartScale = images[selectedBox].scale;
+    }
+    try { canvas.releasePointerCapture(e.pointerId); } catch(_) {}
+  }
+
+  canvas.addEventListener('pointerup',     endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+
+  // Mouse-wheel zoom (smooth, normalized)
+  canvas.addEventListener('wheel', e => {
+    if (!images[selectedBox]) return;
+    e.preventDefault();
+    const d  = images[selectedBox];
+    const t  = scaleToT(selectedBox, d.scale);
+    const dt = e.deltaY * -0.0018;          // ~0.18 of slider range per 100px scroll
+    applyScale(selectedBox, tToScale(selectedBox, Math.max(0, Math.min(1, t + dt))));
+  }, { passive: false });
+
+  // Zoom slider (normalized 0→1)
+  document.getElementById('zoomRange').addEventListener('input', function() {
+    if (!images[selectedBox]) return;
+    applyScale(selectedBox, tToScale(selectedBox, parseFloat(this.value)));
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  //  INIT
+  // ═══════════════════════════════════════════════════════════
+  buildThumbs();
+  resetForLayout();
+  </script>
+
+  <!-- Cart + Buy Now logic -->
+  <script src="js/cart.js"></script>
+  <script>
+  // ── Collect current frame data ───────────────────────────────
+  // ── Compress a single image to max 1000px / JPEG 0.75 ──────────
+  // Keeps file size manageable for localStorage + GAS upload
+  function compressImage(imgEl, fileName) {
+    return new Promise(function(resolve) {
+      try {
+        const MAX = 1000;
+        const w   = imgEl.naturalWidth  || imgEl.width;
+        const h   = imgEl.naturalHeight || imgEl.height;
+        const ratio = Math.min(MAX / w, MAX / h, 1);
+        const cw    = Math.round(w * ratio);
+        const ch    = Math.round(h * ratio);
+        const tmp   = document.createElement('canvas');
+        tmp.width   = cw;
+        tmp.height  = ch;
+        tmp.getContext('2d').drawImage(imgEl, 0, 0, cw, ch);
+        const ext  = (fileName || '').split('.').pop().toLowerCase();
+        const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
+        resolve({ base64: tmp.toDataURL(mime, 0.75), name: fileName || 'photo.jpg' });
+      } catch(e) {
+        resolve(null);
+      }
+    });
+  }
+
+  async function buildCartItem() {
+    const prices = { A4: 1099, A3: 1499 };
+    const previewDataUrl = canvas.toDataURL('image/png');
+
+    // Collect file names (for display)
+    const imageFiles = images.filter(Boolean).map(d => d.fileName || 'image.jpg');
+
+    // FIX: Also collect compressed base64 of each uploaded photo
+    // so Google Drive Images/ folder actually receives the files
+    const uploadedImages = await Promise.all(
+      images.filter(Boolean).map(d => compressImage(d.img, d.fileName))
+    );
+
+    return {
+      layout:        curLayout,
+      size:          curSize,
+      price:         prices[curSize] || 1099,
+      textLine1:     document.getElementById('line1')  ? document.getElementById('line1').value  : '',
+      textLine2a:    document.getElementById('line2a') ? document.getElementById('line2a').value : '',
+      textLine2b:    document.getElementById('line2b') ? document.getElementById('line2b').value : '',
+      previewDataUrl,
+      imageFiles,
+      uploadedImages: uploadedImages.filter(Boolean)
+    };
+  }
+
+  // ── Toast helper ─────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── Add to Cart ──────────────────────────────────────────────
+  document.getElementById('btnAddCart').addEventListener('click', async () => {
+    const btn = document.getElementById('btnAddCart');
+    btn.disabled = true; btn.textContent = 'Adding...';
+    const item = await buildCartItem();
+    Cart.addItem(item);
+    showToast('Added to cart!');
+    btn.disabled = false; btn.textContent = 'Add to Cart';
+  });
+
+  // ── Buy Now ──────────────────────────────────────────────────
+  document.getElementById('btnBuyNow').addEventListener('click', async () => {
+    const btn = document.getElementById('btnBuyNow');
+    btn.disabled = true; btn.textContent = 'Please wait...';
+    const item = await buildCartItem();
+    sessionStorage.setItem('wallitude_buynow', JSON.stringify([item]));
+    window.location.href = 'checkout.html?mode=buynow';
+  });
+  </script>
+</body>
+</html>

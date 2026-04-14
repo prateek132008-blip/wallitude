@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy – Wallitude</title>
+  <meta name="description" content="Wallitude's Privacy Policy — how we collect, use and protect your personal information.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Root tokens — identical to index.html ─────────────────── */
+    :root {
+      --ink:    #121212;
+      --cream:  #f6f3ee;
+      --gold:   #b89a5a;
+      --muted:  #7a7a7a;
+      --border: #ddd8cf;
+      --white:  #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* ── Header — identical to index.html ──────────────────────── */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ink); height: 58px;
+      display: flex; align-items: center;
+      justify-content: space-between; padding: 0 28px;
+    }
+    .header-logo-img { height: 28px; width: auto; display: block; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .header-contact {
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.06em; color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px; border-radius: 3px;
+      transition: color .2s, border-color .2s; cursor: pointer;
+    }
+    .header-contact:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
+    .cart-icon-wrap {
+      position: relative; cursor: pointer;
+      color: #fff; text-decoration: none;
+    }
+    .cart-icon-wrap svg { display: block; }
+    .cart-badge {
+      display: none; position: absolute;
+      top: -7px; right: -7px;
+      width: 18px; height: 18px;
+      background: var(--gold); color: #fff;
+      font-size: 10px; font-weight: 600;
+      border-radius: 50%;
+      align-items: center; justify-content: center;
+    }
+
+    /* ── Policy page layout ────────────────────────────────────── */
+    .policy-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .breadcrumb a { color: var(--muted); transition: color .15s; }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb span { opacity: 0.4; }
+
+    /* Page title */
+    .policy-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .policy-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* Divider under title */
+    .policy-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+
+    /* Section */
+    .policy-section {
+      margin-bottom: 36px;
+    }
+    .policy-section h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .policy-section p {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: #3a3a3a;
+      margin-bottom: 10px;
+    }
+    .policy-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 10px;
+    }
+    .policy-section ul li {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #3a3a3a;
+      padding-left: 18px;
+      position: relative;
+    }
+    .policy-section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: 300;
+    }
+
+    /* Contact block */
+    .policy-contact {
+      margin-top: 48px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .policy-contact p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .policy-contact strong { color: var(--ink); }
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 10px 20px;
+      border-radius: 6px;
+      transition: opacity .15s;
+      white-space: nowrap;
+    }
+    .wa-btn:hover { opacity: 0.88; }
+
+    /* ── Footer — identical to index.html ──────────────────────── */
+    .footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 28px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-left {
+      font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
+    }
+    .footer-logo {
+      font-weight: 300; font-size: 16px;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .footer-logo-img { height: 52px; width: auto; display: block; opacity: 0.85; }
+    .footer-links {
+      display: flex; gap: 20px;
+      font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .header { padding: 0 16px; }
+      .header-contact { padding: 5px 10px; font-size: 11px; }
+      .policy-wrap { padding: 36px 16px 60px; }
+      .policy-title { font-size: 20px; }
+      .footer { flex-direction: column; align-items: flex-start; }
+      .policy-contact { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+
+  <!-- ── Meta Pixel ─────────────────────────────────────────── -->
+  <!-- SETUP: Replace YOUR_PIXEL_ID below with your actual Pixel ID -->
+  <!-- Find it at: business.facebook.com → Events Manager → Your Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- ── End Meta Pixel ─────────────────────────────────────── -->
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────────────── -->
+  <header class="header">
+    <a href="index.html">
+      <img src="images/logo-wordmark.png" alt="Wallitude" class="header-logo-img">
+    </a>
+    <div class="header-right">
+      <a href="tracking.html" class="header-contact">Track Order</a>
+      <a href="https://wa.me/916287656368?text=Hi%2C%20I%20have%20a%20query%20about%20Wallitude%20frames."
+         class="header-contact" target="_blank" rel="noopener">Contact us</a>
+      <a href="cart.html" class="cart-icon-wrap" aria-label="View cart">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M2 2h2l2.68 11.39a2 2 0 0 0 1.95 1.61h7.72a2 2 0 0 0 1.97-1.69l1.18-7.62H5"
+                stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9"  cy="19" r="1.2" fill="#fff"/>
+          <circle cx="17" cy="19" r="1.2" fill="#fff"/>
+        </svg>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ── CONTENT ─────────────────────────────────────────────── -->
+  <main class="policy-wrap">
+
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>Privacy Policy</span>
+    </nav>
+
+    <h1 class="policy-title">Privacy Policy</h1>
+    <p class="policy-subtitle">Last updated: April 2026</p>
+    <hr class="policy-rule">
+
+    <p style="font-size:14px;line-height:1.8;color:#3a3a3a;margin-bottom:36px;">
+      At Wallitude, we value your privacy and are committed to protecting your personal information.
+    </p>
+
+    <div class="policy-section">
+      <h2>1. Information We Collect</h2>
+      <p>We collect the following information when you use our website:</p>
+      <ul>
+        <li>Name</li>
+        <li>Phone number</li>
+        <li>Email address</li>
+        <li>Shipping address</li>
+        <li>Uploaded images and custom design data</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>2. How We Use Your Information</h2>
+      <p>Your information is used to:</p>
+      <ul>
+        <li>Process and fulfill your orders</li>
+        <li>Deliver customized products</li>
+        <li>Provide customer support</li>
+        <li>Improve our website and services</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>3. Image &amp; Design Data</h2>
+      <p>All images and designs uploaded by customers are used solely for order processing and preview generation. We do not sell or share your images with third parties.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2>4. Payment Security</h2>
+      <p>All payments are securely processed through Razorpay. We do not store your payment details.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2>5. Data Storage</h2>
+      <p>Your order details and uploaded content may be securely stored using Google services (Google Drive and Google Sheets) for order processing and record-keeping.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2>6. Data Sharing</h2>
+      <p>We do not sell or rent your personal information. Data may only be shared with:</p>
+      <ul>
+        <li>Payment providers</li>
+        <li>Delivery partners</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2>7. Your Rights</h2>
+      <p>You can request access, correction, or deletion of your data by contacting us.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2>8. Updates to Policy</h2>
+      <p>Wallitude may update this policy at any time. Changes will be reflected on this page.</p>
+    </div>
+
+    <div class="policy-contact">
+      <p><strong>Privacy concerns?</strong><br>Reach out to us directly on WhatsApp.</p>
+      <a class="wa-btn"
+         href="https://wa.me/916287656368?text=Hi%2C%20I%20have%20a%20privacy-related%20query."
+         target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+        </svg>
+        +91 6287656368
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────── -->
+  <footer class="footer">
+    <span class="footer-left">Contact us : <a href="/cdn-cgi/l/email-protection#7f161119103f081e1313160b0a1b1a511c1012" style="color:inherit"><span class="__cf_email__" data-cfemail="bcd5d2dad3fccbddd0d0d5c8c9d8d992dfd3d1">[email&#160;protected]</span></a> &nbsp;|&nbsp;
+      <a href="https://instagram.com/wallitude.co" target="_blank" rel="noopener"
+         style="color:inherit">Instagram</a>
+    </span>
+    <div class="footer-logo">
+      <img src="images/logo-full.png" alt="Wallitude" class="footer-logo-img">
+    </div>
+    <div class="footer-links">
+ 

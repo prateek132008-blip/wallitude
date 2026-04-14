@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallitude — Custom Frames</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ════════════════════════════════════════════════════════════
+       ROOT TOKENS
+    ════════════════════════════════════════════════════════════ */
+    :root {
+      --ink:       #121212;
+      --cream:     #f6f3ee;
+      --gold:      #b89a5a;
+      --gold-dk:   #9c7d3e;
+      --muted:     #7a7a7a;
+      --border:    #ddd8cf;
+      --white:     #ffffff;
+      --card-bg:   #fafaf8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    .header-logo-img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    .footer-logo-img {
+      height: 52px;
+      width: auto;
+      display: block;
+      opacity: 0.85;
+    }
+    img { max-width: 100%; display: block; }
+    a   { text-decoration: none; color: inherit; }
+
+    /* ════════════════════════════════════════════════════════════
+       HEADER
+    ════════════════════════════════════════════════════════════ */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--ink);
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .header-logo {
+      /* Cenala-style: elegant tracked caps serif rendered with CSS */
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 17px;
+      letter-spacing: 0.32em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-contact {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px;
+      border-radius: 3px;
+      transition: color .2s, border-color .2s;
+      cursor: pointer;
+    }
+    .header-contact:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
+
+    /* Cart icon */
+    .cart-icon-wrap {
+      position: relative;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+    }
+    .cart-icon-wrap svg { display: block; }
+
+    .cart-badge {
+      display: none;
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      width: 18px;
+      height: 18px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       HERO — single banner image with chevron clip
+    ════════════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      /* Chevron / inverted-V cut at the bottom — matches reference design */
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+      /* Extra bottom padding so the image fills the clipped area */
+      padding-bottom: 80px;
+    }
+
+    .hero-banner-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 680px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       CTA  (empty frame + button)
+    ════════════════════════════════════════════════════════════ */
+    .cta-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 20px 56px;
+      background: var(--white);
+    }
+
+    .empty-frame {
+      width: 100px;
+      height: 130px;
+      border: 7px solid var(--ink);
+      margin-bottom: 32px;
+      position: relative;
+      animation: framePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes framePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(18,18,18,0.08); }
+      50%       { box-shadow: 0 0 0 10px rgba(18,18,18,0); }
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 15px 42px;
+      border: 1.5px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .22s, color .22s;
+      text-decoration: none;
+    }
+    .cta-btn:hover {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       DIVIDER
+    ════════════════════════════════════════════════════════════ */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       4-STEP PROCESS
+    ════════════════════════════════════════════════════════════ */
+    .steps-section {
+      padding: 64px 20px 72px;
+      background: var(--white);
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      color: var(--ink);
+    }
+
+    .steps-grid {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 148px;
+    }
+
+    .step-tile {
+      width: 108px;
+      height: 108px;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    .step-tile-text {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-align: center;
+      line-height: 1.6;
+      padding: 0 8px;
+    }
+
+    .step-num {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       REAL CLIENT PICTURES
+    ════════════════════════════════════════════════════════════ */
+    .clients-section {
+      padding: 64px 0 72px;
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .clients-section .section-title {
+      padding: 0 20px;
+    }
+
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .client-photo {
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      width: 100%;
+      display: block;
+      transition: transform .3s;
+    }
+    .client-photo:hover { transform: scale(1.03); }
+
+    /* Placeholder tiles when photos load */
+    .client-tile {
+      overflow: hidden;
+      background: #ddd8cc;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       TAGLINE BANNER
+    ════════════════════════════════════════════════════════════ */
+    .tagline-banner {
+      background: var(--ink);
+      padding: 72px 20px;
+      text-align: center;
+    }
+
+    .tagline-main {
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .tagline-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 0 auto 20px;
+    }
+
+    .tagline-sub {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════════════════════ */
+    .footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 32px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;   /* 🔥 REQUIRED for centering logo */
+}
+
+    .footer-left {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.04em;
+}
+
+.footer-left a {
+  color: rgba(255,255,255,0.85);
+}
+
+.footer-left a:hover {
+  color: #ffffff;
+}
+
+    .footer-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+    .footer-logo svg { opacity: 0.5; }
+
+    .footer-links {
+  display: flex;
+  gap: 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.04em;
+}
+    .footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+    /* ════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .header { padding: 0 16px; }
+      .header-contact { padding: 5px 10px; font-size: 11px; }
+
+      .steps-grid { gap: 12px; }
+      .step-card  { width: 120px; }
+      .step-tile  { width: 88px; height: 88px; }
+
+      .clients-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+
+  <!-- ── Meta Pixel ─────────────────────────────────────────── -->
+  <!-- SETUP: Replace YOUR_PIXEL_ID below with your actual Pixel ID -->
+  <!-- Find it at: business.facebook.com → Events Manager → Your Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- ── End Meta Pixel ─────────────────────────────────────── -->
+</head>
+<body>
+
+  <!-- ─── HEADER ─────────────────────────────────────────────── -->
+  <header class="header">
+    <a href="index.html"><img src="images/logo-wordmark.png" alt="Wallitude" class="header-logo-img"></a>
+
+    <div class="header-right">
+      <a href="tracking.html" class="header-contact">Track Order</a>
+      <a href="https://wa.me/916287656368?text=Hi%2C%20I%20have%20a%20query%20about%20Wallitude%20frames." class="header-contact" target="_blank" rel="noopener">Contact us</a>
+
+      <a href="cart.html" class="cart-icon-wrap" aria-label="View cart">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2h2l2.68 11.39a2 2 0 0 0 1.95 1.61h7.72a2 2 0 0 0 1.97-1.69l1.18-7.62H5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="19" r="1.2" fill="#fff"/>
+          <circle cx="17" cy="19" r="1.2" fill="#fff"/>
+        </svg>
+        <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─────────────────────────────────────────────────── -->
+  <section class="hero">
+    <!--
+      IMAGE FILE: images/hero-banner.png
+      Replace this src if you rename the file.
+      Recommended size: 1200px wide minimum.
+    -->
+    <img
+      class="hero-banner-img"
+      src="images/hero-banner.png"
+      alt="Moments Fade. Frames Don't. — Wallitude"
+      loading="eager"
+    >
+  </section>
+
+  <!-- ─── CTA ──────────────────────────────────────────────────── -->
+  <section class="cta-section">
+    <!-- Iconic empty frame graphic -->
+    <div class="empty-frame"></div>
+    <a href="product.html" class="cta-btn">Create your frame</a>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ─── 4-STEP PROCESS ────────────────────────────────────────── -->
+  <section class="steps-section">
+    <h2 class="section-title">4 Step Process</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-tile">
+          <span class="step-tile-text">Upload<br>Image</span>
+        </div>
+        <span class="step-num">Step 01</span>
+      </div>
+      <div class="step-card">
+        <div class="step-tile">
+          <span class="step-tile-text">See<br>Preview</span>
+        </div>
+        <span class="step-num">Step 02</span>
+      </div>
+      <div class="step-card">
+        <div class="step-tile">
+          <span class="step-tile-text">Make<br>Payment</span>
+        </div>
+        <span class="step-num">Step 03</span>
+      </div>
+      <div class="step-card">
+        <div class="step-tile">
+          <span class="step-tile-text">Place<br>Order</span>
+        </div>
+        <span class="step-num">Step 04</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ─── REAL CLIENT PICTURES ─────────────────────────────────── -->
+  <section class="clients-section">
+    <h2 class="section-title">Real Client Pictures</h2>
+    <div class="clients-grid">
+      <div class="client-tile">
+        <img class="client-photo" src="images/client-1.jpg"/mnt/user-data/uploads/Screenshot_20260413-154630.png" alt="Client photo" loading="lazy">
+      </div>
+      <div class="client-tile">
+        <img class="client-photo" src="images/client-2.jpg"/mnt/user-data/uploads/Screenshot_20260413-154727.png" alt="Client photo" loading="lazy">
+      </div>
+      <div class="client-tile">
+        <img class="client-photo" src="images/client-3.jpg"/mnt/user-data/uploads/Screenshot_20260413-154843.png" alt="Client photo" loading="lazy">
+      </div>
+      <div class="client-tile">
+        <img class="client-photo" src="images/client-4.jpg"/mnt/user-data/uploads/Screenshot_20260409-000300.png" alt="Client photo" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TAGLINE BANNER ────────────────────────────────────────── -->
+  <section class="tagline-banner">
+    <p class="tagline-main">Moments Fade.<br>Frames Don't.</p>
+    <div class="tagline-divider"></div>
+    <p class="tagline-sub">Preserve them beautifully with Wallitude</p>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────────── -->
+  <footer class="footer">
+    <span class="footer-left">
+  Contact us : 
+  <a href="mailto:info@wallitude.com" style="color:inherit;">info@wallitude.com</a>
+  &nbsp;|&nbsp;
+  <a href="https://instagram.com/wallitude.co" target="_blank" style="color:inherit;">Instagram</a>
+</span>
+
+    <div class="footer-logo">
+      <img src="images/logo-full.png" alt="Wallitude" class="footer-logo-img">
+    </div>
+
+    <div class="footer-links">
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="return-replacement-policy.html">Return & Replacement</a>
+  <a href="shipping-policy.html">Shipping Policy</a>
+</div>
