@@ -18,7 +18,7 @@
 const Checkout = (() => {
 
   // ── YOUR CONFIG ──────────────────────────────────────────────
-  const RAZORPAY_KEY_ID = 'rzp_live_Sczvk68iCuryMo';  // ← TEST KEY. Switch to rzp_live_Sczvk68iCuryMo when going live
+  const RAZORPAY_KEY_ID = 'rzp_test_SdLEnL0lYIFFpw';  // ← TEST KEY. Switch to rzp_live_Sczvk68iCuryMo when going live
   const GAS_URL         = 'https://script.google.com/macros/s/AKfycbxsKd0vX6r9kNrWzMM0b8hVaHoJmun62E98Uae2aOrnaqqo96Uu-Ddw6x0hosg-ILEk/exec';
 
   function generateOrderId() {
