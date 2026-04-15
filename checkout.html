@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallitude — Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Razorpay SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root {
+      --ink:    #121212;
+      --cream:  #f6f3ee;
+      --gold:   #b89a5a;
+      --muted:  #7a7a7a;
+      --border: #ddd8cf;
+      --white:  #ffffff;
+      --error:  #d44;
+      --success:#3a8f5e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100dvh; }
+    a { text-decoration: none; color: inherit; }
+    .header-logo-img { height: 28px; width: auto; display: block; }
+
+    /* HEADER */
+    .header {
+      background: var(--ink); height: 58px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 28px;
+    }
+    .header-logo { font-weight: 300; font-size: 17px; letter-spacing: .32em; text-transform: uppercase; color: #fff; }
+    .nav-back { font-size: 12px; color: rgba(255,255,255,.6); letter-spacing: .06em; }
+    .nav-back:hover { color: #fff; }
+
+    /* LAYOUT */
+    .page { max-width: 900px; margin: 0 auto; padding: 40px 18px 80px; }
+    .page-title { font-size: 20px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 40px; text-align: center; }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* FORM */
+    .form-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 28px;
+    }
+    .form-section-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-row.tri  { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .field input {
+      width: 100%; padding: 11px 13px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: 13px; font-family: 'Inter', sans-serif; color: var(--ink);
+      background: var(--cream); outline: none;
+      transition: border-color .15s, background .15s;
+    }
+    .field input:focus { border-color: var(--ink); background: var(--white); }
+    .field input.error { border-color: var(--error); }
+
+    .form-error {
+      background: #fff0f0; border: 1px solid #f5c0c0; border-radius: 6px;
+      padding: 12px 16px; font-size: 13px; color: var(--error);
+      margin-top: 16px; display: none;
+    }
+    .form-error.show { display: block; }
+
+    /* ORDER SUMMARY SIDEBAR */
+    .summary-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 24px;
+      position: sticky; top: 80px;
+    }
+    .summary-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+
+    /* Mini item preview in summary */
+    .summary-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .s-item { display: flex; gap: 12px; align-items: center; }
+    .s-preview {
+      width: 52px; height: 66px; flex-shrink: 0;
+      border: 4px solid #111; background: #f0ede6; overflow: hidden;
+    }
+    .s-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .s-meta { flex: 1; }
+    .s-name { font-size: 12px; font-weight: 600; }
+    .s-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .s-price { font-size: 13px; font-weight: 600; margin-left: auto; flex-shrink: 0; }
+
+    .summary-divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+
+    .summary-row {
+      display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0;
+    }
+    .summary-row .lbl { color: var(--muted); }
+    .summary-row.total { font-size: 16px; font-weight: 700; padding-top: 10px; border-top: 1px solid var(--border); margin-top: 8px; }
+
+    .btn-pay {
+      display: block; width: 100%; margin-top: 22px; padding: 16px;
+      background: var(--ink); color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      border: none; border-radius: 8px; cursor: pointer; transition: opacity .15s;
+    }
+    .btn-pay:hover:not(:disabled) { opacity: .82; }
+    .btn-pay:disabled { opacity: .45; cursor: not-allowed; }
+
+    .secure-note {
+      display: flex; align-items: center; gap: 6px; justify-content: center;
+      font-size: 11px; color: var(--muted); margin-top: 12px;
+    }
+
+    /* LOADING + SUCCESS OVERLAYS */
+    .success-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6);
+      z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+    }
+    .success-overlay.show { display: flex; }
+
+    /* Loading modal */
+    .loading-modal {
+      background: #fff; border-radius: 12px; padding: 44px 36px; text-align: center;
+      max-width: 380px; width: 100%;
+    }
+    .loading-spinner {
+      width: 44px; height: 44px; margin: 0 auto 20px;
+      border: 3px solid #e0dbd2;
+      border-top-color: #121212;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-modal p {
+      font-size: 14px; font-weight: 500; color: #121212; margin-bottom: 8px; line-height: 1.6;
+    }
+    .loading-modal small {
+      font-size: 11px; color: var(--muted); letter-spacing: .04em;
+    }
+
+    /* Success / Order ID modal */
+    .success-modal {
+      background: #fff; border-radius: 12px; padding: 44px 36px; text-align: center;
+      max-width: 420px; width: 100%;
+      animation: modalIn .4s cubic-bezier(.22,.68,0,1.2);
+    }
+    @keyframes modalIn { from { transform: scale(.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .success-icon { font-size: 44px; margin-bottom: 14px; }
+    .success-modal h2 {
+      font-size: 19px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .success-oid-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted); margin: 20px 0 8px;
+    }
+    .success-oid {
+      font-size: 18px; font-weight: 800; background: var(--cream);
+      padding: 12px 20px; border-radius: 8px; display: inline-block;
+      margin-bottom: 20px; letter-spacing: .1em; color: #121212;
+      border: 1.5px solid var(--border);
+    }
+    .success-note {
+      font-size: 12px; color: var(--muted); line-height: 1.7;
+      background: #fffdf5; border: 1px solid #e8dfc0;
+      border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; text-align: left;
+    }
+    .success-note strong { color: #121212; }
+    .success-support {
+      font-size: 12px; color: var(--muted); margin-bottom: 24px; line-height: 1.6;
+    }
+    .btn-home {
+      display: inline-block; padding: 13px 36px; background: var(--ink);
+      color: #fff; border-radius: 8px; font-size: 12px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+
+    @media (max-width: 680px) {
+      .checkout-grid { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+      .form-row.tri { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .header { padding: 0 16px; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-row.tri { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- ── Meta Pixel ─────────────────────────────────────────── -->
+  <!-- SETUP: Replace 1367586455178175 below with your actual Pixel ID -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1367586455178175');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1367586455178175&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- ── End Meta Pixel ─────────────────────────────────────── -->
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.html"><img src="images/logo-wordmark.png" alt="Wallitude" class="header-logo-img"></a>
+    <div style="display:flex;align-items:center;gap:14px;"><a href="tracking.html" class="nav-back">Track Order</a><a href="cart.html" class="nav-back">← Back to cart</a></div>
+  </header>
+
+  <main class="page">
+    <h1 class="page-title">Checkout</h1>
+
+    <div class="checkout-grid">
+
+      <!-- ── LEFT: Customer form ─────────────────────────────── -->
+      <div class="form-card">
+        <p class="form-section-title">Contact Information</p>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="cName">Full Name *</label>
+            <input type="text" id="cName" placeholder="Rahul Sharma" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="cPhone">Phone Number *</label>
+            <input type="tel" id="cPhone" placeholder="9876543210" maxlength="10" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="field">
+            <label for="cEmail">Email Address *</label>
+            <input type="email" id="cEmail" placeholder="rahul@email.com" autocomplete="email">
+          </div>
+        </div>
+
+        <p class="form-section-title" style="margin-top:24px">Delivery Address</p>
+
+        <div class="form-row full">
+          <div class="field">
+            <label for="cAddress">Address *</label>
+            <input type="text" id="cAddress" placeholder="Flat / House No., Street, Area" autocomplete="address-line1">
+          </div>
+        </div>
+
+        <div class="form-row tri">
+          <div class="field">
+            <label for="cPincode">Pincode *</label>
+            <input type="text" id="cPincode" placeholder="400001" maxlength="6"
+                   autocomplete="postal-code" oninput="handlePincode(this)">
+            <span id="pincodeHint" style="font-size:10px;color:var(--muted);margin-top:3px;display:none;">Fetching location…</span>
+          </div>
+          <div class="field">
+            <label for="cCity">City *</label>
+            <input type="text" id="cCity" placeholder="Auto-filled" autocomplete="address-level2">
+          </div>
+          <div class="field">
+            <label for="cState">State *</label>
+            <input type="text" id="cState" placeholder="Auto-filled" autocomplete="address-level1">
+          </div>
+        </div>
+
+        <div class="form-error" id="formError"></div>
+      </div>
+
+      <!-- ── RIGHT: Order summary + Pay button ─────────────────── -->
+      <div class="summary-card">
+        <p class="summary-title">Order Summary</p>
+
+        <div class="summary-items" id="summaryItems">
+          <!-- Rendered by JS -->
+        </div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-row">
+          <span class="lbl">Subtotal</span>
+          <span id="summarySubtotal">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Shipping</span>
+          <span style="color:#3a8f5e;font-weight:500">FREE</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="summaryTotal">₹0</span>
+        </div>
+
+        <!-- Prepaid-only notice -->
+        <div style="background:#f6f3ee;border-left:3px solid #b89a5a;border-radius:0 6px 6px 0;
+                    padding:11px 14px;margin-bottom:14px;font-size:12px;color:#555;line-height:1.6;">
+          <strong style="color:#121212;">Prepaid orders only.</strong><br>
+          Since all products are personalized and made-to-order,
+          Cash on Delivery (COD) is not available.
+        </div>
+        <button class="btn-pay" id="btnPay">Pay with Razorpay</button>
+
+        <p class="secure-note">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Secured by Razorpay
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Loading overlay (shown immediately after payment) -->
+  <div class="success-overlay" id="loadingOverlay">
+    <div class="loading-modal">
+      <div class="loading-spinner"></div>
+      <p>Processing your order…</p>
+      <small>Please do not close or refresh this page.</small>
+    </div>
+  </div>
+
+  <!-- Order confirmed overlay (shown after processing completes) -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-modal">
+      <div class="success-icon">✅</div>
+      <h2>Order Confirmed</h2>
+
+      <p class="success-oid-label">This is your Order ID</p>
+      <div class="success-oid" id="successOrderId">WT-XXXXXX</div>
+
+      <div class="success-note">
+        <strong>📸 Please take a screenshot or note down your Order ID.</strong><br>
+        Your Order ID and invoice will be shared with you on WhatsApp shortly.
+      </div>
+
+      <p class="success-support">
+        For any queries related to your order, feel free to contact us on
+        <a href="https://wa.me/916287656368" target="_blank" rel="noopener"
+           style="color:#25d366;font-weight:600;">WhatsApp</a>.
+      </p>
+
+      <a href="index.html" class="btn-home">Back to Home</a>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+  <script>
+    // ── Determine items (cart or buy-now) ────────────────────────
+    const urlParams = new URLSearchParams(window.location.search);
+    const isBuyNow  = urlParams.get('mode') === 'buynow';
+
+    function getCheckoutItems() {
+      if (isBuyNow) {
+        try { return JSON.parse(sessionStorage.getItem('wallitude_buynow')) || []; }
+        catch { return []; }
+      }
+      return Cart.getItems();
+    }
+
+    // ── Render order summary ─────────────────────────────────────
+    function renderSummary() {
+      const items   = getCheckoutItems();
+      const itemsEl = document.getElementById('summaryItems');
+      const total   = items.reduce((s, i) => s + (i.price || 0), 0);
+
+      if (items.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      itemsEl.innerHTML = items.map(item => `
+        <div class="s-item">
+          <div class="s-preview">
+            ${item.previewDataUrl
+              ? `<img src="${item.previewDataUrl}" alt="Preview">`
+              : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#aaa">No preview</div>`
+            }
+          </div>
+          <div class="s-meta">
+            <p class="s-name">Layout ${item.layout} · ${item.size}</p>
+            <p class="s-sub">${(item.imageFiles || []).length} photo${(item.imageFiles||[]).length!==1?'s':''}</p>
+          </div>
+          <span class="s-price">₹${item.price.toLocaleString('en-IN')}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('summarySubtotal').textContent = `₹${total.toLocaleString('en-IN')}`;
+      document.getElementById('summaryTotal').textContent    = `₹${total.toLocaleString('en-IN')}`;
+    }
+
+    renderSummary();
+
+    // ── Collect form data ────────────────────────────────────────
+    function getFormData() {
+      return {
+        name:    document.getElementById('cName').value.trim(),
+        phone:   document.getElementById('cPhone').value.trim(),
+        email:   document.getElementById('cEmail').value.trim(),
+        address: document.getElementById('cAddress').value.trim(),
+        city:    document.getElementById('cCity').value.trim(),
+        state:   document.getElementById('cState').value.trim(),
+        pincode: document.getElementById('cPincode').value.trim()
+      };
+    }
+
+    // ── Highlight error fields ───────────────────────────────────
+    function clearFieldErrors() {
+      document.querySelectorAll('.field input').forEach(el => el.classList.remove('error'));
+    }
+
+    // ── Pay button ───────────────────────────────────────────────
+    document.getElementById('btnPay').addEventListener('click', () => {
+      clearFieldErrors();
+      document.getElementById('formError').classList.remove('show');
+
+      const customerData = getFormData();
+      const cartItems    = getCheckoutItems();
+      const btn          = document.getElementById('btnPay');
+
+      // Client-side validation
+      const error = Checkout.validateForm(customerData);
+      if (error) {
+        const errEl = document.getElementById('formError');
+        errEl.textContent = error;
+        errEl.classList.add('show');
+        // Highlight specific field
+        const fieldMap = {
+          name: 'cName', phone: 'cPhone', email: 'cEmail',
+          address: 'cAddress', city: 'cCity', state: 'cState', pincode: 'cPincode'
+        };
+        for (const [key, id] of Object.entries(fieldMap)) {
+          if (error.toLowerCase().includes(key)) {
+            document.getElementById(id)?.classList.add('error');
+          }
+        }
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Opening payment…';
+      if (typeof fbq === 'function') { fbq('track', 'InitiateCheckout'); }
+
+      Checkout.startCheckout({
+        customerData,
+        cartItems,
+        onSuccess: (orderId, paymentId) => {
+          // STEP 1: Show loading popup immediately
+          document.getElementById('loadingOverlay').classList.add('show');
+          btn.disabled    = false;
+          btn.textContent = 'Pay with Razorpay';
+
+          // STEP 2: After GAS submission completes (handled in checkout.js handler),
+          // transition to the Order ID popup
+          // We use a small timeout to ensure GAS fetch has fired, then show result
+          setTimeout(() => {
+            // Clear cart
+            if (isBuyNow) {
+              sessionStorage.removeItem('wallitude_buynow');
+            } else {
+              Cart.clearCart();
+            }
+            // Hide loading, show confirmed
+            document.getElementById('loadingOverlay').classList.remove('show');
+            document.getElementById('successOrderId').textContent = orderId;
+            document.getElementById('successOverlay').classList.add('show');
+
+            // Fire Meta Pixel Purchase event
+            if (typeof fbq === 'function') {
+              fbq('track', 'Purchase', { value: cartItems.reduce(function(s,i){return s+(i.price||0);},0), currency: 'INR', order_id: orderId });
+            }
+          }, 2500);
+        },
+        onFailure: (msg) => {
+          const errEl = document.getElementById('formError');
+          errEl.textContent = msg || 'Payment failed. Please try again.';
+          errEl.classList.add('show');
+          btn.disabled    = false;
+          btn.textContent = 'Pay with Razorpay';
+        }
+      });
+    });
+
+    // Pincode: numbers only
+    // Pincode auto-fill via postalpincode.in
+    async function handlePincode(input) {
+      input.value = input.value.replace(/\D/g, '').slice(0, 6);
+      const pin  = input.value;
+      const hint = document.getElementById('pincodeHint');
+      const cityEl  = document.getElementById('cCity');
+      const stateEl = document.getElementById('cState');
+
+      if (pin.length !== 6) {
+        hint.style.display = 'none';
+        return;
+      }
+      hint.style.display = 'block';
+      hint.textContent   = 'Fetching location…';
+
+      try {
+        const res  = await fetch('https://api.postalpincode.in/pincode/' + pin);
+        const data = await res.json();
+        if (data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice.length > 0) {
+          const po = data[0].PostOffice[0];
+          cityEl.value  = po.District || po.Block || '';
+          stateEl.value = po.State    || '';
+          hint.textContent   = '✓ ' + (po.District || po.Block || '') + ', ' + po.State;
+          hint.style.color   = '#3a8f5e';
+        } else {
+          hint.textContent = 'Pincode not found — fill manually.';
+          hint.style.color = '#c44';
+        }
+      } catch (err) {
+        hint.textContent = 'Could not fetch — fill manually.';
+        hint.style.color = '#c44';
+      }
+      hint.style.display = 'block';
+    }
+    document.getElementById('cPhone').addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
+  </script>
+
+</body>
+</html>
