@@ -449,7 +449,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1367586455178175');
+    fbq('init', 'YOUR_PIXEL_ID');
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
@@ -964,6 +964,7 @@
       img.onload = () => {
         const slot    = selectedBox;
         images[slot]  = fitInBox(img, boxes[slot], { fileName: file.name });
+        images[slot].originalBase64 = ev.target.result; // store original file data for Drive upload
         syncSlider(slot);
         draw();
 
@@ -1154,42 +1155,19 @@
   <script src="js/cart.js"></script>
   <script>
   // ── Collect current frame data ───────────────────────────────
-  // ── Compress a single image to max 1000px / JPEG 0.75 ──────────
-  // Keeps file size manageable for localStorage + GAS upload
-  function compressImage(imgEl, fileName) {
-    return new Promise(function(resolve) {
-      try {
-        const MAX = 1000;
-        const w   = imgEl.naturalWidth  || imgEl.width;
-        const h   = imgEl.naturalHeight || imgEl.height;
-        const ratio = Math.min(MAX / w, MAX / h, 1);
-        const cw    = Math.round(w * ratio);
-        const ch    = Math.round(h * ratio);
-        const tmp   = document.createElement('canvas');
-        tmp.width   = cw;
-        tmp.height  = ch;
-        tmp.getContext('2d').drawImage(imgEl, 0, 0, cw, ch);
-        const ext  = (fileName || '').split('.').pop().toLowerCase();
-        const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
-        resolve({ base64: tmp.toDataURL(mime, 0.75), name: fileName || 'photo.jpg' });
-      } catch(e) {
-        resolve(null);
-      }
-    });
-  }
-
   async function buildCartItem() {
     const prices = { A4: 1099, A3: 1499 };
     const previewDataUrl = canvas.toDataURL('image/png');
 
-    // Collect file names (for display)
+    // Collect file names (for display in cart)
     const imageFiles = images.filter(Boolean).map(d => d.fileName || 'image.jpg');
 
-    // FIX: Also collect compressed base64 of each uploaded photo
-    // so Google Drive Images/ folder actually receives the files
-    const uploadedImages = await Promise.all(
-      images.filter(Boolean).map(d => compressImage(d.img, d.fileName))
-    );
+    // Use original base64 stored at upload time — no canvas re-render, no compression.
+    // This preserves the full resolution and quality for printing.
+    const uploadedImages = images
+      .filter(Boolean)
+      .filter(d => d.originalBase64)
+      .map(d => ({ base64: d.originalBase64, name: d.fileName || 'photo.jpg' }));
 
     return {
       layout:        curLayout,
@@ -1200,7 +1178,7 @@
       textLine2b:    document.getElementById('line2b') ? document.getElementById('line2b').value : '',
       previewDataUrl,
       imageFiles,
-      uploadedImages: uploadedImages.filter(Boolean)
+      uploadedImages
     };
   }
 
