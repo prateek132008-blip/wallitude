@@ -930,7 +930,7 @@
       drawDivider(padX, dividerY);
 
       ctx.font = '400 20px "Inter", sans-serif';
-      ctx.fillText(document.getElementById('line1').value || '', midX, textY);
+      ctx.fillText((document.getElementById('line1').value || '').toUpperCase(), midX, textY);
 
     } else {
       // Structure: Images → Main Line → Divider → Second Line
@@ -939,12 +939,12 @@
       const mainY = divY - 22;
 
       ctx.font = '400 25px "Inter", sans-serif';   // Inter Regular
-      ctx.fillText(document.getElementById('line2a').value || '', midX, mainY);
+      ctx.fillText((document.getElementById('line2a').value || '').toUpperCase(), midX, mainY);
 
       drawDivider(padX, divY);
 
       ctx.font = '300 14px "Inter", sans-serif';   // Inter Light
-      ctx.fillText(document.getElementById('line2b').value || '', midX, subY);
+      ctx.fillText((document.getElementById('line2b').value || '').toUpperCase(), midX, subY);
     }
   }
 
